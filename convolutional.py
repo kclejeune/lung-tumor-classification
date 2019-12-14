@@ -5,20 +5,24 @@ import torch.optim as opt
 import torch.utils.data as data
 import torch.utils.data.sampler as sam
 import torch
-
+import warnings
+from os.path import dirname, abspath, join
+warnings.filterwarnings("ignore")
+torch.manual_seed(12345)
 
 LEARNING_RATE = 0.01
-BATCH_SIZE = 64
-NUM_TRAINING_SAMPLES = 20000
-NUM_TESTING_SAMPLES = 10000
-NUM_VAL_SAMPLES = 5000
+BATCH_SIZE = 1
+NUM_TRAINING_SAMPLES = 10
+NUM_TESTING_SAMPLES = 6
+NUM_VAL_SAMPLES = 5
 
 train_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, dtype=np.int64))
 test_sampler = sam.SubsetRandomSampler(np.arange(NUM_TESTING_SAMPLES, dtype=np.int64))
 val_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES,  NUM_VAL_SAMPLES + NUM_TRAINING_SAMPLES,
                                                 dtype=np.int64))
 
-
+current_folder = dirname(abspath(__file__))
+model_folder = join(current_folder, "saved_models")
 # net with 2 convolutions, and a binary output
 class Net(nn.Module):
     def __init__(self):
@@ -82,6 +86,7 @@ def train(net, epochs, train_loader, val_loader):
             total_val_loss += current_loss.item()
 
         print("Epoch " + str(epoch) + " val loss: " + str(running_val_loss))
+        torch.save(net.state_dict(), join(model_folder, "model"))
 
 
 # this function will only take in a model which has the convolutional layer weights
