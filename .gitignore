@@ -1,1 +1,4 @@
 *.json
+.envrc
+venv/
+.vscode/
