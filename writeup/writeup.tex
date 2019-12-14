@@ -57,24 +57,52 @@
    
 \end{abstract}
 
-%%%%%%%%% BODY TEXT
 \section{Introduction} \label{intro}
 
 Transfer Learning is a technique that offers a unique approach to problems
 that require
+
+   \subsection{Problem Definition} \label{intro-def}
 %-------------------------------------------------------------------------
 
 \section{Related Works} \label{works}
 
-%%%%%%%%% DATA Text
 \section{Datasets} \label{data}
+   For this research we needed to obtain two separate datasets to fit two
+   distinct roles. ImageNet, \ref{data-imagenet}, was needed to train
+   the classifier on general image data to fit the convolution segment of
+   the network to recognize underlying image Structure. This is our source
+   domain, $D_s$.
+
+   LIDC-IDRI, \ref{data-lidc}, is used to train the output segment of the
+   the network. This is our target domain, $D_t$.
+
    \subsection{ImageNet Dataset} \label{data-imagenet}
    
    
-   \subsection{LIDC-DCIR Dataset} \label{data-lidc}
+   \subsection{LIDC-IDRI Dataset} \label{data-lidc}
+      The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
+      is a very popular cancer classification dataset that focuses on tumors located
+      in the lungs. The lung scans are CT images of the upper torso. The entire dataset
+      consists of 1018 cases that each contain thoracic radiologists annotations of tumor segments
+      These tumors annotations each contain 9 different descriptors such as malignancy,
+      calcification, and lobulation. The descriptor this paper is interested in is the
+      malignancy of each nodule.
 
-\section{Network Structure} \label{struct}
+      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' of malignancy and 
+      5 being 'Highly Suspicious' of malignancy. Using these ratings each slice in a chest CT
+      was rated as either malignant, benign, or non-nodule. A slice was considered non-nodule
+      if there was no nodule annotations found within the slice. To split nodules into malignant
+      and benign labels, the annotations performed on a specific node were averaged and for malignancy
+      values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
+      considered benign, based upon the 4 radiologists predictions.
 
+      \subsubsection{PyLIDC} \label{data-lidc-pylidc}
+         To assist in the extraction of data from the DICOM image files, a python library was utilized
+         to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
+
+         \section{Network Structure} \label{struct}
+         
    \subsection{Convolutional Neural Network} \label{struct-cnn}
 
    \subsection{Aggregation SVM} \label{struct-svm}
@@ -84,6 +112,7 @@ that require
 \section{Results} \label{results}
 
 \section{Conclusion} \label{conclusion}
+
 {\small
 \bibliographystyle{ieee}
 \bibliography{egbib}
