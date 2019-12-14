@@ -8,10 +8,10 @@ import torch
 
 
 LEARNING_RATE = 0.01
-BATCH_SIZE = 1
-NUM_TRAINING_SAMPLES = 10
-NUM_TESTING_SAMPLES = 6
-NUM_VAL_SAMPLES = 5
+BATCH_SIZE = 64
+NUM_TRAINING_SAMPLES = 20000
+NUM_TESTING_SAMPLES = 10000
+NUM_VAL_SAMPLES = 5000
 
 train_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, dtype=np.int64))
 test_sampler = sam.SubsetRandomSampler(np.arange(NUM_TESTING_SAMPLES, dtype=np.int64))
