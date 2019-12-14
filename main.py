@@ -8,12 +8,14 @@ import glob
 from os.path import dirname, abspath, join
 from random import shuffle
 
-NUM_EPOCHS = 25
+NUM_EPOCHS = 5
+RETRAIN = True
 
 # TODO: define train set, test set, and validation set from input data
 def main():
     current_folder = dirname(abspath(__file__))
     data_folder = join(current_folder, "imagenet_images")
+    model_folder = join(current_folder, "saved_models")
     accel_folder = join(data_folder, "accelerator")
     bell_folder = join(data_folder, "belladonna")
     image_set = []
@@ -36,9 +38,14 @@ def main():
     train_loader, test_loader, val_loader = convolutional.get_loaders(training_set, testing_set)
 
     net = convolutional.Net()
-
-    convolutional.train(net, NUM_EPOCHS, train_loader, val_loader)
+    if RETRAIN:
+        convolutional.train(net, NUM_EPOCHS, train_loader, val_loader)
+        convolutional.test(net, test_loader)
+    else:
+        net.load_state_dict(torch.load(join(model_folder, "model")))
     convolutional.test(net, test_loader)
+
+    #torch.save(net.state_dict(), join(model_folder, "model"))
 
 
 if __name__ == '__main__':
