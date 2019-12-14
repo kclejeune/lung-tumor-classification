@@ -6,15 +6,16 @@ import torch.utils.data as data
 import torch.utils.data.sampler as sam
 import torch
 
-LEARNING_RATE = 0.1
-BATCH_SIZE = 128
-NUM_TRAINING_SAMPLES = 20
-NUM_TESTING_SAMPLES = 20
-NUM_VAL_SAMPLES = 20
+
+LEARNING_RATE = 0.01
+BATCH_SIZE = 1
+NUM_TRAINING_SAMPLES = 10
+NUM_TESTING_SAMPLES = 6
+NUM_VAL_SAMPLES = 5
 
 train_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, dtype=np.int64))
 test_sampler = sam.SubsetRandomSampler(np.arange(NUM_TESTING_SAMPLES, dtype=np.int64))
-val_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, NUM_TRAINING_SAMPLES + NUM_VAL_SAMPLES,
+val_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES,  NUM_VAL_SAMPLES + NUM_TRAINING_SAMPLES,
                                                 dtype=np.int64))
 
 
@@ -22,35 +23,32 @@ val_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, NUM_TRAINI
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 10, 5)
+        self.conv1 = nn.Conv2d(3, 10, 5)
         self.conv2 = nn.Conv2d(10, 20, 5)
-        self.fc1 = nn.Linear(320, 64)
-        self.fc2 = nn.Linear(64, 2)
+        self.drop = nn.Dropout2d()
+        self.fc1 = nn.Linear(in_features=74420, out_features=64)
+        self.fc2 = nn.Linear(in_features=64, out_features=2)
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = F.relu(x)
-        x = nn.MaxPool2d(x, 2)
-        x = self.conv2(x)
-        x = F.relu(x)
-        x = nn.MaxPool2d(x, 2)
+        x = F.relu(F.max_pool2d(self.conv1(x), 2))
+        x = F.relu(F.max_pool2d(self.drop(self.conv2(x)), 2))
         x = x.view(x.size(0), -1)
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.fc2(x)
+        x = F.relu(self.fc1(x))
+        x = F.dropout(x, training=self.training)
+        x = F.log_softmax(self.fc2(x))
         return x
 
 
 def get_opt_and_loss(model):
-    optimizer = opt.Adam(filter((lambda p: p.requires_grad, model.parameters())), lr=LEARNING_RATE)
+    optimizer = opt.Adam(filter((lambda p: p.requires_grad), model.parameters()), lr=LEARNING_RATE)
     loss = nn.CrossEntropyLoss()
     return optimizer, loss
 
 
 def get_loaders(train_set, test_set):
-    train_loader = data.DataLoader(train_set, batch_size = BATCH_SIZE, sampler=train_sampler, num_workers=2)
-    test_loader = data.DataLoader(test_set, batch_size = BATCH_SIZE, sampler=test_sampler, num_workers=2)
-    val_loader = data.DataLoader(train_set, batch_size=BATCH_SIZE, sampler=val_sampler, num_workers=2)
+    train_loader = data.DataLoader(train_set, batch_size = BATCH_SIZE, sampler=train_sampler, num_workers=0)
+    test_loader = data.DataLoader(test_set, batch_size = BATCH_SIZE, sampler=test_sampler, num_workers=0)
+    val_loader = data.DataLoader(train_set, batch_size=BATCH_SIZE, sampler=val_sampler, num_workers=0)
     return train_loader, test_loader, val_loader
 
 
@@ -64,7 +62,7 @@ def train(net, epochs, train_loader, val_loader):
         running_loss = 0
         running_val_loss = 0
 
-        for i, item in enumerate(train_loader, 0):
+        for i, item in enumerate(train_loader):
             inputs, labels = item
             optim.zero_grad()
             outputs = net(inputs)
@@ -76,7 +74,7 @@ def train(net, epochs, train_loader, val_loader):
 
         print("Epoch " + str(epoch) + " loss: " + str(running_loss))
 
-        for i, item in enumerate(val_loader, 0):
+        for i, item in enumerate(val_loader):
             inputs, labels = item
             outputs = net(inputs)
             current_loss = loss(outputs, labels)
@@ -104,7 +102,7 @@ def test(net, test_loader):
         inputs, labels = item
         outputs = net(inputs).squeeze()
 
-        _, pred = torch.max(outputs, 1)
+        _, pred = torch.max(outputs, 0)
         correct += pred.eq(labels.view_as(pred)).sum().item()
 
     acc = correct/len(test_loader)
