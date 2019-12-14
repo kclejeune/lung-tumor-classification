@@ -54,7 +54,8 @@
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-   
+   DICOM classification is a challenging task which typically requires a trained medical professional to
+   choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to choose and classify DICOM slices. We propose a inductive transfer learning approach which applies hidden layer image representations from an ImageNet classifier to our DICOM classifier to classify each slice and aggregate the results, outputting the overall likelihood of a malignant presence in a given scan.
 \end{abstract}
 
 \section{Introduction} \label{intro}
@@ -78,8 +79,8 @@ that require
    the network. This is our target domain, $D_t$.
 
    \subsection{ImageNet Dataset} \label{data-imagenet}
-   
-   
+
+
    \subsection{LIDC-IDRI Dataset} \label{data-lidc}
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
       is a very popular cancer classification dataset that focuses on tumors located
@@ -89,7 +90,7 @@ that require
       calcification, and lobulation. The descriptor this paper is interested in is the
       malignancy of each nodule.
 
-      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' of malignancy and 
+      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' of malignancy and
       5 being 'Highly Suspicious' of malignancy. Using these ratings each slice in a chest CT
       was rated as either malignant, benign, or non-nodule. A slice was considered non-nodule
       if there was no nodule annotations found within the slice. To split nodules into malignant
@@ -102,7 +103,7 @@ that require
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
 
          \section{Network Structure} \label{struct}
-         
+
    \subsection{Convolutional Neural Network} \label{struct-cnn}
 
    \subsection{Aggregation SVM} \label{struct-svm}

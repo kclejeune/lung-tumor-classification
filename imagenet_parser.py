@@ -1,5 +1,5 @@
 from scipy import ndimage
-from PIL.Image import open as open_img
+from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 from sys import argv
@@ -17,17 +17,17 @@ else:
         if platform.system() == "Windows"
         else os.path.realpath("/keybase")
     )
-    image_dir = os.path.join(keybase_base, "team", "cwru_dl", "imagenet")
+    image_dir = os.path.join(keybase_base, "team", "cwru_dl", "imagenet_images")
 
 
-class Image:
+class AnnotatedImage:
     def __init__(self, image, label):
         self.image = image
         self.label = label
 
     def __eq__(self, other):
         return (
-            isinstance(other, ImageClass)
+            isinstance(other, AnnotatedImage)
             and other.image == self.image
             and other.label == self.label
         )
@@ -54,11 +54,14 @@ def parse_numeric_images(image_root: str = image_dir, grayscale=True):
         for img in os.scandir(path):
             img_path = os.path.join(path, img)
             try:
-                image = np.asarray(
-                    open_img(img_path).convert("L") if grayscale else open_img(img_path)
-                )
+                image = (
+                    Image.open(img_path).convert("L")
+                    if grayscale
+                    else Image.open(img_path)
+                ).resize(256, 256)
+
                 # print(tuple((image.shape, class_label)))
-                image_arr.append(Image(image=image, label=class_label))
+                image_arr.append(AnnotatedImage(image=image, label=class_label))
             except IOError:
                 print(f"Unable to read file {img_path}")
     return np.array(image_arr)
