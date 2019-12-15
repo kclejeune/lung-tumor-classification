@@ -7,6 +7,7 @@ from keras.layers import Activation, Dense, Dropout, Flatten
 from keras.models import Model, Sequential
 from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
+from utils import get_keybase_team
 
 # establish base model
 HEIGHT, WIDTH = 512, 512
@@ -15,8 +16,8 @@ base_model = ResNet50(
     weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
 )
 
-# get
-TRAIN_DIR = "food_dataset"
+# TODO: replace with LIDC parser
+TRAIN_DIR = os.path.join(get_keybase_team("cwru_dl"), "output")
 BATCH_SIZE = 8
 
 train_datagen = ImageDataGenerator(

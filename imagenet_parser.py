@@ -12,12 +12,6 @@ if "--image_root" in argv:
     i = argv.index("--image_root") + 1
     image_dir = os.path.abspath(argv[i])
 else:
-    keybase_base = (
-        os.path.realpath(":k")
-        if platform.system() == "Windows"
-        else os.path.realpath("/keybase")
-    )
-    image_dir = os.path.join(keybase_base, "team", "cwru_dl", "imagenet_images")
 
 
 class AnnotatedImage:
