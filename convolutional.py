@@ -7,6 +7,7 @@ import torch.utils.data.sampler as sam
 import torch
 import warnings
 from os.path import dirname, abspath, join
+
 warnings.filterwarnings("ignore")
 torch.manual_seed(12345)
 
@@ -18,8 +19,11 @@ NUM_VAL_SAMPLES = 5
 
 train_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES, dtype=np.int64))
 test_sampler = sam.SubsetRandomSampler(np.arange(NUM_TESTING_SAMPLES, dtype=np.int64))
-val_sampler = sam.SubsetRandomSampler(np.arange(NUM_TRAINING_SAMPLES,  NUM_VAL_SAMPLES + NUM_TRAINING_SAMPLES,
-                                                dtype=np.int64))
+val_sampler = sam.SubsetRandomSampler(
+    np.arange(
+        NUM_TRAINING_SAMPLES, NUM_VAL_SAMPLES + NUM_TRAINING_SAMPLES, dtype=np.int64
+    )
+)
 
 current_folder = dirname(abspath(__file__))
 model_folder = join(current_folder, "saved_models")
@@ -44,15 +48,23 @@ class Net(nn.Module):
 
 
 def get_opt_and_loss(model):
-    optimizer = opt.Adam(filter((lambda p: p.requires_grad), model.parameters()), lr=LEARNING_RATE)
+    optimizer = opt.Adam(
+        filter((lambda p: p.requires_grad), model.parameters()), lr=LEARNING_RATE
+    )
     loss = nn.CrossEntropyLoss()
     return optimizer, loss
 
 
 def get_loaders(train_set, test_set):
-    train_loader = data.DataLoader(train_set, batch_size = BATCH_SIZE, sampler=train_sampler, num_workers=0)
-    test_loader = data.DataLoader(test_set, batch_size = BATCH_SIZE, sampler=test_sampler, num_workers=0)
-    val_loader = data.DataLoader(train_set, batch_size=BATCH_SIZE, sampler=val_sampler, num_workers=0)
+    train_loader = data.DataLoader(
+        train_set, batch_size=BATCH_SIZE, sampler=train_sampler, num_workers=0
+    )
+    test_loader = data.DataLoader(
+        test_set, batch_size=BATCH_SIZE, sampler=test_sampler, num_workers=0
+    )
+    val_loader = data.DataLoader(
+        train_set, batch_size=BATCH_SIZE, sampler=val_sampler, num_workers=0
+    )
     return train_loader, test_loader, val_loader
 
 
@@ -110,19 +122,6 @@ def test(net, test_loader):
         _, pred = torch.max(outputs, 0)
         correct += pred.eq(labels.view_as(pred)).sum().item()
 
-    acc = correct/len(test_loader)
+    acc = correct / len(test_loader)
     print("Accuracy: " + str(acc))
-
-
-
-
-
-
-
-
-
-
-
-
-
 
