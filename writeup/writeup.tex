@@ -24,7 +24,7 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{A Transfer Learning Approach to Aggregated DICOM Lung Tumor Classification}
+\title{A Transfer Learning Approach to Aggregated DICOM Pulmonary Node Classification}
 
 \author{Kennan LeJeune\\
    {\tt\small kennan@case.edu}
@@ -143,29 +143,33 @@
       and benign labels, the annotations performed on a specific node were averaged and for malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
       considered benign, based upon the 4 radiologists predictions.
-    
+
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
-    
+
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
          and communicating image data. The structures of these files are extremely robust and offer many access in
          the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
-    
-         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of 
+
+         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
          ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
 
 \section{Network Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem. 
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
-![Resnet](Resnet.png)
-
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{./images/Resnet.png}
+            \caption{Resnet node}
+            \label{}
+        \end{figure}
 
    \subsection{Study Aggregation} \label{sec:struct-aggr}
 
