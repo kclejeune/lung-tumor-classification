@@ -40,7 +40,8 @@ def extract_lungs():
         if load_dicom:
             # Convert scans to numpy arrays
             images = scan.load_all_dicom_images(False)
-            slices = get_pixels_hu(images)
+            slices = transform_hu(images)
+            slices = resize(slices, float(images[0].SliceThickness))
             slices, amt_rm_frm_beg = cut_slices(slices)
 
             create_anotations(lung_output_folder, scan, slices, amt_rm_frm_beg)
@@ -50,15 +51,31 @@ def extract_lungs():
             pass
             # slices = np.load(np_file).astype(np.float64)
 
-        masked = [s for s in slices]
-        save_scan(lung_output_folder, masked)
+        save_scan(lung_output_folder, [s for s in slices])
 
 
-def get_pixels_hu(slices):
+def transform_hu(images):
     # Stack and convert pixels
-    image = np.stack([s.pixel_array for s in slices])
-    image = image.astype(np.int16)
-    return image
+    slices = np.stack([s.pixel_array for s in images]).astype(np.int16)
+
+    # Remove out of bounds pixels
+    slices[slices == -2000] = 0
+
+    if images[0].RescaleSlope != 1:
+        slices = images[0].RescaleSlope * image.astype(np.float64)
+        slices = image.astype(np.int16)
+
+    slices += np.int16(images[0].RescaleIntercept)
+
+    return np.array(slices, dtype=np.int16)
+
+
+def resize(slices, slice_thickness):
+    spacing = np.array([slice_thickness, 1, 1])
+    resize_factor = np.round(image.shape * spacing) / image.shape
+
+    slices = sp.ndimage.interpolation.zoom(slices, resize_factor)
+    return slices
 
 
 def create_anotations(lung_output_folder, scan, slices, start_slice):
@@ -86,7 +103,7 @@ def create_anotations(lung_output_folder, scan, slices, start_slice):
     # Write Annotations to file
     with open(os.path.join(lung_output_folder, "annotations.txt"), "w+") as f:
         for key, val in slice_anns.items():
-            f.write(f"{key}: {val}\n")
+            f.write(str(key) + ": " + str(val) + "\n")
 
 
 def cut_slices(slices):
@@ -101,7 +118,7 @@ def cut_slices(slices):
 
 def save_scan(folder, slices):
     for x in range(len(slices)):
-        slice_name = f"{x}.png"
+        slice_name = str(x) + ".png"
 
         image_save_loc = os.path.join(folder, slice_name)
         plt.imsave(
