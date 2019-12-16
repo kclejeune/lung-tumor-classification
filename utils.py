@@ -32,8 +32,12 @@ def get_lidc_dataframe(data_path: str):
         except:
             print("you suck")
     # pd.option_context("display.max_columns")
-    print(frames[0]["File"][0])
-    return pd.concat(frames)
 
+    full_df = pd.concat(frames)
 
-get_lidc_dataframe(os.path.join(get_keybase_team("cwru_dl"), "output"))
+    no_nodule_df = full_df.loc[full_df["Label"] == "0"]
+    no_nodule_sample = no_nodule_df.sample(n=2979)
+
+    tumor_sample = full_df.loc[full_df["Label"] != "0"]
+
+    return pd.concat([tumor_sample, no_nodule_sample])
