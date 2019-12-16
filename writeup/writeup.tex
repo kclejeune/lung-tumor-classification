@@ -84,11 +84,11 @@
       1. $D_S = D_T, T_S\neq T_T$ (Inductive Transfer, \ref{sec:intro-types-inductive})
 
       2. $D_S\neq D_T, T_S = T_T$ (Transductive Transfer, \ref{sec:intro-types-transductive})
-
+    
       3. $T_S\neq T_T$ and $D_S, D_T$ are unlabeled (Unsupervised Transfer, \ref{sec:intro-types-unsupervised})
-
+    
       \subsubsection{Inductive Transfer Learning} \label{sec:intro-types-inductive}
-
+    
          In Inductive Transfer Learning, the domain of the source and target tasks is the same. In this case, labeled data
          from the target task must be available in order to induce the predictive function that we want the classifier to learn.
          There are two situations in inductive transfer learning: one where labeled source data is available, and one where it
@@ -97,18 +97,24 @@
          classifier attempts to learn several classification tasks at the same time, except in this case we only care about
          the performance on a single target task, and are hoping to use knowledge learned from the other tasks in order to
          improve performance on said target task.
-
+    
       \subsubsection{Transductive Transfer Learning} \label{sec:intro-types-transductive}
          Transductive Transfer Learning focuses on an area in which the source and target tasks are the same, but the domains
          differ. The data used in the target domain is unlabeled, whereas there is an abundance of labeled data in the source
          domain. Transductive transfer learning can be broken down even further, into two specific scenarios: the first, in
          which the target and source domains have a different feature space; and the second, where the feature space is the
          same, but the input data have different marginal probability distributions.
-
+    
       \subsubsection{Unsupervised Transfer Learning} \label{sec:intro-types-unsupervised}
          Unsupervised Transfer Learning focuses on a setting where there is no labeled data for either the source and target
          domains, and the target task is different from the source task. This situation is common in areas such as clustering
          and dimensionality reduction.
+
+ \subsection{Classification Problem} \label{sec:intro-class}
+
+​	Lung cancer is one of the most dangerous and lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. 
+
+
 
 %-------------------------------------------------------------------------
 
@@ -125,7 +131,6 @@
    the network. This is our target domain, $D_t$.
 
    \subsection{ImageNet Dataset} \label{sec:data-imagenet}
-
 
    \subsection{LIDC-IDRI Dataset} \label{sec:data-lidc}
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
@@ -166,6 +171,11 @@
 
 ![Resnet](Resnet.png)
 
+​	For our project, we are using the ResNet-50 pretrained model for Keras. The architecture of the model can be seen in the image below. 
+
+![Keras Resnet-50](Keras Resnet-50.png)
+
+As a whole, the mode has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output. 
 
    \subsection{Study Aggregation} \label{sec:struct-aggr}
 
