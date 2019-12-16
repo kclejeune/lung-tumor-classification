@@ -161,14 +161,20 @@
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
         The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
-![Resnet](Resnet.png)
-
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{./images/Resnet.png}
+            \caption{Resnet node}
+            \label{}
+        \end{figure}
 
    \subsection{Study Aggregation} \label{sec:struct-aggr}
 
 \section{Experiments} \label{sec:experiments}
 
 \section{Results} \label{sec:results}
+
+\section{Further Investigation} \label{sec:further}
 
 \section{Conclusion} \label{sec:conclusion}
 
