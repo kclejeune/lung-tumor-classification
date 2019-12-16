@@ -58,30 +58,30 @@
    choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to choose and classify DICOM slices. We propose a inductive transfer learning approach which applies hidden layer image representations from an ImageNet classifier to our DICOM classifier to classify each slice and aggregate the results, outputting the overall likelihood of a malignant presence in a given scan.
 \end{abstract}
 
-\section{Introduction} \label{intro}
+\section{Introduction} \label{sec:intro}
 
 Transfer Learning is a technique that offers a unique approach to problems
 that require
 
-   \subsection{Problem Definition} \label{intro-def}
+   \subsection{Problem Definition} \label{sec:intro-def}
 %-------------------------------------------------------------------------
 
-\section{Related Works} \label{works}
+\section{Related Works} \label{sec:works}
 
-\section{Datasets} \label{data}
+\section{Datasets} \label{sec:data}
    For this research we needed to obtain two separate datasets to fit two
-   distinct roles. ImageNet, \ref{data-imagenet}, was needed to train
+   distinct roles. ImageNet, \ref{sec:data-imagenet}, was needed to train
    the classifier on general image data to fit the convolution segment of
    the network to recognize underlying image Structure. This is our source
    domain, $D_s$.
 
-   LIDC-IDRI, \ref{data-lidc}, is used to train the output segment of the
+   LIDC-IDRI, \ref{sec:data-lidc}, is used to train the output segment of the
    the network. This is our target domain, $D_t$.
 
-   \subsection{ImageNet Dataset} \label{data-imagenet}
+   \subsection{ImageNet Dataset} \label{sec:data-imagenet}
 
 
-   \subsection{LIDC-IDRI Dataset} \label{data-lidc}
+   \subsection{LIDC-IDRI Dataset} \label{sec:data-lidc}
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
       is a very popular cancer classification dataset that focuses on tumors located
       in the lungs. The lung scans are CT images of the upper torso. The entire dataset
@@ -98,21 +98,32 @@ that require
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
       considered benign, based upon the 4 radiologists predictions.
 
-      \subsubsection{PyLIDC} \label{data-lidc-pylidc}
+      \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
 
-         \section{Network Structure} \label{struct}
+      \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
+         DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
+         and communicating image data. The structures of these files are extremely robust and offer many access in
+         the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
+         processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
+         coefficients in the DICOM.
 
-   \subsection{Convolutional Neural Network} \label{struct-cnn}
+         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of 
+         ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
+         pixel data was transformed.
 
-   \subsection{Aggregation SVM} \label{struct-svm}
+\section{Network Structure} \label{sec:struct}
 
-\section{Experiments} \label{experiments}
+   \subsection{Convolutional Neural Network} \label{sec:struct-cnn}
 
-\section{Results} \label{results}
+   \subsection{Study Aggregation} \label{sec:struct-aggr}
 
-\section{Conclusion} \label{conclusion}
+\section{Experiments} \label{sec:experiments}
+
+\section{Results} \label{sec:results}
+
+\section{Conclusion} \label{sec:conclusion}
 
 {\small
 \bibliographystyle{ieee}
