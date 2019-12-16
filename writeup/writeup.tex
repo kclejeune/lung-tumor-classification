@@ -55,13 +55,53 @@
 %%%%%%%%% ABSTRACT
 \begin{abstract}
    DICOM classification is a challenging task which typically requires a trained medical professional to
-   choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to choose and classify DICOM slices. We propose a inductive transfer learning approach which applies hidden layer image representations from an ImageNet classifier to our DICOM classifier to classify each slice and aggregate the results, outputting the overall likelihood of a malignant presence in a given scan.
+   choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions
+   and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to
+   choose and classify DICOM slices. We propose an inductive transfer learning approach which applies hidden layer
+   image representations from a residual neural network to our DICOM classifier to classify each slice and aggregate the
+   results, outputting the overall likelihood of a malignant presence in a given scan.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
 
-Transfer Learning is a technique that offers a unique approach to problems
-that require
+Traditionally, Machine Learning problems rely on the assumption that the training data and future data domains
+are in the same feature space and have the same distribution (Pan, Yang). However, a large number of real world
+applications perform poorly when these assumptions are not met. A common instance of is a classification task on
+a restricted domain of interest (e.g. classifying malignant brain tumors) with minimal or unlabeled training data,
+but we have sufficient training data in another domain of interest (e.g. classifying malignant lung carcinomas).
+Transfer Learning aims to solve this problem by adapting the knowledge acquired from a training task or
+training domain for use in a related domain or task. Intuitively, we can apply a solution to a problem to a
+different but related problem in a human-like matter.
+Definition. (\it Transfer Learning) (Pan, Yang)
+Given source and target domains $D_S, D_T$ and learning tasks $T_S$ on the source domain and $T_T$ on the target
+domain, where we aim to improve the learning of a target predictive function $f_T(\dot)\in D_T$ using
+the knowledge in $D_S$ or $T_S$, where $D_S\neq D_T$ or $T_S\neq T_T$. Note that in the case where both domains
+and tasks are equivalent, this is analogous to a standard machine learning problem. We can characterize the
+nature of nearly all Transfer Learning problems by considering three primary cases:
+
+1. $D_S = D_T, T_S\neq T_T$ (Inductive Transfer)
+2. $D_S\neq D_T, T_S = T_T$ (Transductive Transfer)
+3. $T_S\neq T_T$ and $D_S, D_T$ are unlabeled (Unsupervised Transfer)
+
+In Inductive Transfer Learning, the domain of the source and target tasks is the same. In this case, labeled data
+from the target task must be available in order to induce the predictive function that we want the classifier to learn.
+There are two situations in inductive transfer learning: one where labeled source data is available, and one where it
+is not. The first scenario is similar to something known as self-taught learning, in which the classifier hopes to
+learn basic patterns from random unlabeled data. The second scenario is similar to multi task learning, where the
+classifier attempts to learn several classification tasks at the same time, except in this case we only care about
+the performance on a single target task, and are hoping to use knowledge learned from the other tasks in order to
+improve performance on said target task.
+Transductive Transfer Learning focuses on an area in which the source and target tasks are the same, but the domains
+differ. The data used in the target domain is unlabeled, whereas there is an abundance of labeled data in the source
+domain. Transductive transfer learning can be broken down even further, into two specific scenarios: the first, in
+which the target and source domains have a different feature space; and the second, where the feature space is the
+same, but the input data have different marginal probability distributions.
+Unsupervised Transfer Learning focuses on a setting where there is no labeled data for either the source and target
+domains, and the target task is different from the source task. This situation is common in areas such as clustering
+and dimensionality reduction.
+In each of these cases, we can accomplish knowledge transfer via parameter transfer (e.g. weight updates),
+representation transfer (e.g. representing features differently in a target domain), or instance transfer.
+
 
    \subsection{Problem Definition} \label{sec:intro-def}
 %-------------------------------------------------------------------------
@@ -115,7 +155,14 @@ that require
 
 \section{Network Structure} \label{sec:struct}
 
-   \subsection{Convolutional Neural Network} \label{sec:struct-cnn}
+   \subsection{Residual Neural Network} \label{sec:struct-cnn}
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures.
+        Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero,
+        so the performance can degrade in earlier layers. This can result in worse performance for deeper models
+        than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks
+         attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient
+         does not become infinitesimally smaller.
+
 
    \subsection{Study Aggregation} \label{sec:struct-aggr}
 
