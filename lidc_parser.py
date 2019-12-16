@@ -86,7 +86,7 @@ def create_anotations(lung_output_folder, scan, slices, start_slice):
     # Write Annotations to file
     with open(os.path.join(lung_output_folder, "annotations.txt"), "w+") as f:
         for key, val in slice_anns.items():
-            f.write(str(key) + ": " + str(val) + "\n")
+            f.write(f"{key}: {val}\n")
 
 
 def cut_slices(slices):
@@ -101,7 +101,7 @@ def cut_slices(slices):
 
 def save_scan(folder, slices):
     for x in range(len(slices)):
-        slice_name = str(x) + ".png"
+        slice_name = f"{x}.png"
 
         image_save_loc = os.path.join(folder, slice_name)
         plt.imsave(

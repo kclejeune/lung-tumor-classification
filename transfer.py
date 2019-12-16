@@ -1,5 +1,4 @@
 import os
-
 import matplotlib.pyplot as plt
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.callbacks import ModelCheckpoint
@@ -16,7 +15,7 @@ base_model = ResNet50(
     weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
 )
 
-TRAIN_DIR = os.path.join(get_keybase_team("cwru_dl"), "lidc")
+TRAIN_DIR = os.path.join(get_keybase_team("cwru_dl"), "output")
 BATCH_SIZE = 8
 
 lidc_df = get_lidc_dataframe(TRAIN_DIR)

@@ -22,11 +22,18 @@ def get_lidc_dataframe(data_path: str):
 
     frames = []
     for study in sorted_studies:
-        df_temp = pd.read_csv(
-            os.path.join(study, "annotations.txt"), sep=": ", header=None
-        )
-        df_temp.columns = ["File", "Label"]
-        df_temp["File"] = df_temp["File"].apply(lambda e: study + str(e) + ".png")
-
-        frames.append(df_temp)
+        try:
+            df_temp = pd.read_csv(
+                os.path.join(study, "annotations.txt"), sep=": ", header=None, dtype=str
+            )
+            df_temp.columns = ["File", "Label"]
+            df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
+            frames.append(df_temp)
+        except:
+            print("you suck")
+    # pd.option_context("display.max_columns")
+    print(frames[0]["File"][0])
     return pd.concat(frames)
+
+
+get_lidc_dataframe(os.path.join(get_keybase_team("cwru_dl"), "output"))
