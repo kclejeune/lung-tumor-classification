@@ -8,44 +8,6 @@ from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
 from utils import get_keybase_team, get_lidc_dataframes
 
-# establish base model
-HEIGHT, WIDTH = 512, 512
-
-base_model = ResNet50(
-    weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
-)
-
-TRAIN_DIR = "os.path.join(get_keybase_team("cwru_dl"), "output")"
-BATCH_SIZE = 8
-
-lidc_df = get_lidc_dataframes(TRAIN_DIR, 13)
-
-train_datagen = ImageDataGenerator(
-    preprocessing_function=preprocess_input,
-    rotation_range=90,
-    horizontal_flip=True,
-    vertical_flip=True,
-)
-
-# train_generator = train_datagen.flow_from_dataframe(
-#     lidc_df,
-#     x_col="File",
-#     y_col="Label",
-#     target_size=(HEIGHT, WIDTH),
-#     batch_size=BATCH_SIZE,
-# )
-
-train_gen = []
-
-for df in lidc_df:
-    train_gen.append(train_datagen.flow_from_dataframe(
-    df,
-    x_col="File",
-    y_col="Label",
-    target_size=(HEIGHT, WIDTH),
-    batch_size=BATCH_SIZE,
-))
-
 
 def build_finetune_model(base_model, dropout, fc_layers, num_classes):
     for layer in base_model.layers:
@@ -57,7 +19,6 @@ def build_finetune_model(base_model, dropout, fc_layers, num_classes):
         # New FC layer, random init
         x = Dense(fc, activation="relu")(x)
         x = Dropout(dropout)(x)
-
     # New softmax layer
     predictions = Dense(num_classes, activation="softmax")(x)
 
@@ -66,59 +27,95 @@ def build_finetune_model(base_model, dropout, fc_layers, num_classes):
     return finetune_model
 
 
-class_list = ["None", "Malignant", "Benign"]
+# Plot the training and validation loss + accuracy
+def plot_training(hist, i):
+    acc = hist.history["acc"]
+    # val_acc = hist.history["val_acc"]
+    epochs = range(len(acc))
+    plt.plot(epochs, acc, label="Training Accuracy")
+    # plt.plot(epochs, val_acc, label="Validation Accuracy")
+    # plt.title("Training and Validation Accuracy")
+    plt.xlabel("Epochs")
+    plt.ylabel("Accuracy")
+    plt.title(f"Model {i} Training Accuracy")
+    plt.savefig(f"figs/training_accuracy_m{i}")
+    plt.figure()
+    loss = hist.history["loss"]
+    # val_loss = hist.history["val_loss"]
+    plt.plot(epochs, loss, label="Training Loss")
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    # plt.plot(epochs, val_loss, label="Validation Loss")
+    plt.title(f"Model {i} Training Loss")
+    plt.savefig(f"figs/training_loss_m{i}.png")
+    plt.figure()
+
+
+############### CONSTANT DECLARATIONS #########################
+# establish base model image dimensions
+HEIGHT, WIDTH = 128, 128
+TRAIN_DIR = os.path.realpath("/Users/kclejeune/Downloads/lidc")
+NUM_SLICES = 5
+# 10 studies per batch
+BATCH_SIZE = NUM_SLICES * 10
+NUM_EPOCHS = 10
+class_list = ["None", "Benign", "Malignant"]
 FC_LAYERS = [1024, 1024]
 dropout = 0.5
+num_train_images = 1012
+optimizer = Adam(lr=0.0001)
+# this is returning the same number of datasets as the number of slices
+dataframes = get_lidc_dataframes(TRAIN_DIR, NUM_SLICES)
+print("Num Slices:", NUM_SLICES)
+print("Num Models:", len(dataframes))
+models = []
+for i, frame in enumerate(dataframes):
+    base_model = ResNet50(
+        weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
+    )
 
-finetune_model = build_finetune_model(
-    base_model, dropout=dropout, fc_layers=FC_LAYERS, num_classes=len(class_list)
-)
-
-
-NUM_EPOCHS = 10
-BATCH_SIZE = 8
-num_train_images = 10000
-
-adam = Adam(lr=0.0001)
-finetune_model.compile(adam, loss="categorical_crossentropy", metrics=["accuracy"])
-
-filepath = os.path.join("checkpoints", "ResNet50", "_model_weights.h5")
-checkpoint = ModelCheckpoint(filepath, monitor=["acc"], verbose=1, mode="max")
-callbacks_list = [checkpoint]
-
-history = []
-
-for train_df in train_gen:
-    history.append(finetune_model.fit_generator(
-        train_df,
+    # construct an image generator with 20% reserved for validation
+    train_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_input,
+        rotation_range=90,
+        horizontal_flip=True,
+        vertical_flip=True,
+        # validation_split=0.2,
+    )
+    # construct an image generator for each batch of studies
+    train_generator = train_datagen.flow_from_dataframe(
+        frame,
+        # subset="training",
+        x_col="File",
+        y_col="Label",
+        target_size=(HEIGHT, WIDTH),
+        batch_size=BATCH_SIZE,
+    )
+    # # 20% validation data generator
+    # validation_generator = train_datagen.flow_from_dataframe(
+    #     frame,
+    #     subset="validation",
+    #     x_col="File",
+    #     y_col="Label",
+    #     target_size=(HEIGHT, WIDTH),
+    #     batch_size=BATCH_SIZE,
+    # )
+    finetune_model = build_finetune_model(
+        base_model, dropout=dropout, fc_layers=FC_LAYERS, num_classes=len(class_list)
+    )
+    finetune_model.compile(
+        optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"]
+    )
+    filepath = os.path.join("checkpoints", "ResNet50", f"_model_weights_{i}.h5")
+    history = finetune_model.fit_generator(
+        train_generator,
         epochs=NUM_EPOCHS,
         workers=8,
         steps_per_epoch=num_train_images // BATCH_SIZE,
         shuffle=True,
-        callbacks=callbacks_list,
-    ))
+        # validation_data=validation_generator,
+        # validation_steps=100,
+        callbacks=[ModelCheckpoint(filepath, monitor=["acc"], verbose=1, mode="max")],
+    )
+    plot_training(history, i)
 
-
-# Plot the training and validation loss + accuracy
-def plot_training(history):
-    for hist in history:
-        acc = hist.history["acc"]
-        val_acc = hist.history["val_acc"]
-        loss = hist.history["loss"]
-        val_loss = hist.history["val_loss"]
-        epochs = range(len(acc))
-
-        plt.plot(epochs, acc, "r.")
-        plt.plot(epochs, val_acc, "r")
-        plt.title("Training and validation accuracy")
-        plt.show()
-
-        plt.savefig("acc_vs_epochs.png")
-
-    # plt.figure()
-    # plt.plot(epochs, loss, 'r.')
-    # plt.plot(epochs, val_loss, 'r-')
-    # plt.title('Training and validation loss')
-
-
-plot_training(history)
