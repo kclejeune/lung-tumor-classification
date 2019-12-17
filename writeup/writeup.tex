@@ -55,8 +55,8 @@
    professional to choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions
    and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to
    choose and classify DICOM slices. We propose an inductive transfer learning approach which applies hidden layer
-   image representations from a residual neural network to our lung nodule classifier to classify each slice and provide
-   recommendations to a user as to what slices may contain possible nodules.
+   image representations from a residual neural network to our lung nodule classifier to classify groups of slices and provide
+   recommendations to a user as to what groups may contain possible nodules.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
@@ -108,12 +108,9 @@
          domains, and the target task is different from the source task. This situation is common in areas such as clustering
          and dimensionality reduction.
 
-```
+
 \subsection{Classification Problem} \label{sec:intro-class}
-	Lung cancer is one of the most dangerous and lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable.
-```
-
-
+	Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn that information itself and can focus specifically on classifying benign or malignant tumors.
 
 %-------------------------------------------------------------------------
 
@@ -204,6 +201,9 @@
 
 {\small
 \bibliographystyle{ieee}
+
+
+
 \bibliography{egbib}
 }
 
