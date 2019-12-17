@@ -305,8 +305,8 @@
 
          \begin{figure}[h]
             \centering
-            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-            \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_1_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_loss_1_sector_128_px.png}
             \caption{1 Sector Model Accuracy and Loss (Sector 1)}
             \label{fig:experiments-1-sector-acc-loss}
          \end{figure}
@@ -342,13 +342,13 @@
 
       \begin{figure}[h]
          \centering
-         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_5_sector_64_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_5_sector_64_px.png}
          \caption{64x64 Model Accuracy and Loss (Sector 1)}
          \label{fig:experiments-64-px-acc-loss}
       \end{figure}
     
-      The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+      The above figure \ref{fig:experiments-64-px-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
     
       The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
@@ -359,11 +359,10 @@
 
    \subsection{Varying Sector Number} \label{sec:results-sector}
 
-​      \subsubsection{1 Sector Model} \label{sec:results-sector-1}
-​      
+      \subsubsection{1 Sector Model} \label{sec:results-sector-1}
 
       \subsubsection{13 Sector Model} \label{sec:results-sector-13}
-      Similar to the base model, which had 5 sectors, the first epoch of the 13 sector model ends with an accuracy approximately the same as random guessing. However, the accuracy of the 13 sector model actually climbs slightly higher, to a final accuracy of about 60\%. This supports the claim that dividing the image into more sectors allows for more accuracy, though it takes longer to run. 
+         Similar to the base model, which had 5 sectors, the first epoch of the 13 sector model ends with an accuracy approximately the same as random guessing. However, the accuracy of the 13 sector model actually climbs slightly higher, to a final accuracy of about 60\%. This supports the claim that dividing the image into more sectors allows for more accuracy, though it takes longer to run. 
 
    \subsection{Varying Image Resolution} \label{sec:results-res}
 
