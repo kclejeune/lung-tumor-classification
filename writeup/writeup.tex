@@ -114,7 +114,7 @@
 
 %-------------------------------------------------------------------------
 
-\section{Related Works} \label{sec:works}
+\section{Related Works} \label{sec:related}
 
    \subsection{Machine Learning vs Deep Learning Algorithms} \label{sec:related-dl-vs-ml}
       In the paper by \cite{ml_vs_dl}, the authors sought out to systematically compare the results and algorithms of
@@ -226,17 +226,17 @@
             \label{fig:struct-cnn-residual}
         \end{figure}
 
-        For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pretrained model for Keras. The architecture of the model can be seen in the image below.
+        For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pre-trained model for Keras. The architecture of the model can be seen in the image below.
 
         \begin{figure*}
             \begin{center}
                 \includegraphics[width=\textwidth]{./images/Resnet-50.png}
             \end{center}
-               \caption{Architecture of Resnet-5}
+            \caption{Architecture of ResNet-5}
             \label{fig:struct-cnn-resnet}
         \end{figure*}
 
-         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
+         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
 
@@ -250,12 +250,24 @@
         be the slice numbers that should be looked at closely.
 
 \section{Experiments} \label{sec:experiments}
+   Three primary ideas were tested in this project. One was to determine if this model generally performed well on the given data and if it performed well
+    compared to the results from \ref{sec:related-dl-vs-ml}. The second goal was to analyze if shifting the
+   {\it sector\_num} as seen in \ref{sec:struct-sector}, increased or decreased the performance of our model. The third was to see if down-sampling the
+   given CT scans to a lower resolution contributed to a significant drop in accuracy.
+
+   \subsection{General Performance} \label{sec:experiments-general-performance}
+        Sectors #13, Image 224x224
+   \subsection{Varying Sector Number} \label{sec:experiments-sector}
+
+   \subsection{Varying Image Resolution} \label{sec:experiements-res}
 
 \section{Results} \label{sec:results}
 
 \section{Further Investigation} \label{sec:further}
 
 \section{Conclusion} \label{sec:conclusion}
+
+
 
 {\small
 \bibliographystyle{ieee}
