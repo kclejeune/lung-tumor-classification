@@ -3,10 +3,15 @@ import matplotlib.pyplot as plt
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.callbacks import ModelCheckpoint
 from keras.layers import Activation, Dense, Dropout, Flatten
-from keras.models import Model, Sequential
+from keras.models import Model, Sequential, load_model
 from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
 from utils import get_keybase_team, get_lidc_dataframes
+from os.path import dirname, abspath, join
+import glob
+
+
+TRAIN = False
 
 
 experiment_dir = "13models_5slices_128px"
@@ -73,11 +78,11 @@ optimizer = Adam(lr=0.0001)
 dataframes = get_lidc_dataframes(TRAIN_DIR, NUM_SLICES)
 print("Num Slices:", NUM_SLICES)
 print("Num Models:", len(dataframes))
-models = []
-for i, frame in enumerate(dataframes):
-    base_model = ResNet50(
-        weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
-    )
+if TRAIN:
+    for i, frame in enumerate(dataframes):
+        base_model = ResNet50(
+            weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
+        )
 
     # construct an image generator with 20% reserved for validation
     train_datagen = ImageDataGenerator(
@@ -125,4 +130,26 @@ for i, frame in enumerate(dataframes):
         callbacks=[ModelCheckpoint(filepath, monitor=["acc"], verbose=1, mode="max")],
     )
     plot_training(history, i)
+
+
+def load_model_weights():
+    current_folder = dirname(abspath(__file__))
+    checkpoints_folder = join(current_folder, "checkpoints/ResNet50/")
+    weight_files = []
+    for filename in sorted(glob.glob(os.path.join(checkpoints_folder, "*.h5"))):
+        weight_files.append(filename)
+    models = []
+    for weight in weight_files:
+        model = load_model(weight)
+        models.append(model)
+    return models
+
+
+def test_example(models, examples_path):
+    frame_list = get_lidc_dataframes(examples_path, len(models))
+    for frame in frame_list:
+        files = (frame["File"], frame["Label"])
+        for model, file in zip(models, files):
+            preds = model.predict(file[0])
+
 
