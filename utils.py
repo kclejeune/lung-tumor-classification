@@ -17,27 +17,37 @@ def get_keybase_team(team_name: str):
     return os.path.join(get_keybase_root(), "team", team_name)
 
 
-def get_lidc_dataframe(data_path: str):
+def get_lidc_dataframes(data_path: str, num_sectors: int):
     sorted_studies = sorted(glob(data_path + "/*"))
 
     frames = []
     for study in sorted_studies:
-        try:
-            df_temp = pd.read_csv(
-                os.path.join(study, "annotations.txt"), sep=": ", header=None, dtype=str
+        df_temp = pd.read_csv(
+            os.path.join(study, "annotations.txt"), sep=": ", header=None, dtype=str
+        )
+        df_temp.columns = ["File", "Label"]
+        df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
+        frames.append(df_temp)
+
+    return slice_sector(frames, num_sectors)
+
+
+def slice_sector(frames, num_sectors: int):
+    frame_size = len(frames[0])
+    sector_size = int(frame_size / num_sectors)
+
+    new_frames = []
+
+    for sector_idx in range(num_sectors):
+        new_frames.append(pd.DataFrame(columns=["File", "Label"], dtype=object))
+        for frame in frames:
+            lower = sector_size * sector_idx
+            upper = sector_size * (sector_idx + 1)
+            new_frames[-1] = new_frames[-1].append(
+                frame.iloc[lower:upper], ignore_index=True
             )
-            df_temp.columns = ["File", "Label"]
-            df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
-            frames.append(df_temp)
-        except:
-            print("you suck")
-    # pd.option_context("display.max_columns")
 
-    full_df = pd.concat(frames)
+    return new_frames
 
-    no_nodule_df = full_df.loc[full_df["Label"] == "0"]
-    no_nodule_sample = no_nodule_df.sample(n=2979)
 
-    tumor_sample = full_df.loc[full_df["Label"] != "0"]
-
-    return pd.concat([tumor_sample, no_nodule_sample])
+get_lidc_dataframes("/home/dblincoe/Desktop/Deep Learning LIDC/lidc", 13)

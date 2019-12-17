@@ -24,10 +24,9 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{A Transfer Learning Approach to Aggregated DICOM Lung Tumor Classification}
+\title{A Transfer Learning Approach to DICOM Slice Selection}
 
 \author{Kennan LeJeune\\
-   {\tt\small kennan@case.edu}
    % For a paper whose authors are all at the same institution,
    % omit the following lines up until the closing ``}''.
    % Additional authors and addresses can be added with ``\and'',
@@ -35,19 +34,17 @@
    % To save space, use either the email address or home page, not both
    \and
    David Blincoe\\
-   {\tt\small drb133@case.edu}
    \and
    Sam Jenkins\\
-   {\tt\small soj3@case.edu}
    \and
    Chris Toomey\\
-   {\tt\small ctt16@case.edu}
    \and
    Arthur Xin\\
-   {\tt\small sxx132@case.edu}\\
    \and
-   {Case Western Reserve University}\\
-   {\textit{Department of Computer and Data Sciences}}
+   \\
+   {Case Western Reserve University, Cleveland, OH}\\
+   {\textit{Department of Computer and Data Sciences}}\\
+   {\tt\small \{kennan, drb133, soj3, ctt16, sxx132\}@case.edu}
 }
 \maketitle
 %\thispagestyle{empty}
@@ -75,7 +72,7 @@
 
    \subsection{Formal Transfer Learning Definition} \label{sec:intro-def}
       Given source and target domains $D_S, D_T$ and learning tasks $T_S$ on the source domain and $T_T$ on the target
-      domain, where we aim to improve the learning of a target predictive function $f_T(\dot)\in D_T$ using
+      domain, where we aim to improve the learning of a target predictive function $f_T(\cdot)\in D_T$ using
       the knowledge in $D_S$ or $T_S$, where $D_S\neq D_T$ or $T_S\neq T_T$. Note that in the case where both domains
       and tasks are equivalent, this is analogous to a standard machine learning problem. We can characterize the
       nature of nearly all Transfer Learning problems by considering three primary cases:
@@ -84,11 +81,11 @@
       1. $D_S = D_T, T_S\neq T_T$ (Inductive Transfer, \ref{sec:intro-types-inductive})
 
       2. $D_S\neq D_T, T_S = T_T$ (Transductive Transfer, \ref{sec:intro-types-transductive})
-    
+
       3. $T_S\neq T_T$ and $D_S, D_T$ are unlabeled (Unsupervised Transfer, \ref{sec:intro-types-unsupervised})
-    
+
       \subsubsection{Inductive Transfer Learning} \label{sec:intro-types-inductive}
-    
+
          In Inductive Transfer Learning, the domain of the source and target tasks is the same. In this case, labeled data
          from the target task must be available in order to induce the predictive function that we want the classifier to learn.
          There are two situations in inductive transfer learning: one where labeled source data is available, and one where it
@@ -97,24 +94,18 @@
          classifier attempts to learn several classification tasks at the same time, except in this case we only care about
          the performance on a single target task, and are hoping to use knowledge learned from the other tasks in order to
          improve performance on said target task.
-    
+
       \subsubsection{Transductive Transfer Learning} \label{sec:intro-types-transductive}
          Transductive Transfer Learning focuses on an area in which the source and target tasks are the same, but the domains
          differ. The data used in the target domain is unlabeled, whereas there is an abundance of labeled data in the source
          domain. Transductive transfer learning can be broken down even further, into two specific scenarios: the first, in
          which the target and source domains have a different feature space; and the second, where the feature space is the
          same, but the input data have different marginal probability distributions.
-    
+
       \subsubsection{Unsupervised Transfer Learning} \label{sec:intro-types-unsupervised}
          Unsupervised Transfer Learning focuses on a setting where there is no labeled data for either the source and target
          domains, and the target task is different from the source task. This situation is common in areas such as clustering
          and dimensionality reduction.
-
- \subsection{Classification Problem} \label{sec:intro-class}
-
-​	Lung cancer is one of the most dangerous and lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. 
-
-
 
 %-------------------------------------------------------------------------
 
@@ -132,6 +123,7 @@
 
    \subsection{ImageNet Dataset} \label{sec:data-imagenet}
 
+
    \subsection{LIDC-IDRI Dataset} \label{sec:data-lidc}
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
       is a very popular cancer classification dataset that focuses on tumors located
@@ -148,40 +140,41 @@
       and benign labels, the annotations performed on a specific node were averaged and for malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
       considered benign, based upon the 4 radiologists predictions.
-    
+
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
-    
+
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
          and communicating image data. The structures of these files are extremely robust and offer many access in
          the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
-    
-         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of 
+
+         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
          ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
 
 \section{Network Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem. 
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
-![Resnet](Resnet.png)
-
-​	For our project, we are using the ResNet-50 pretrained model for Keras. The architecture of the model can be seen in the image below. 
-
-![Keras Resnet-50](Keras Resnet-50.png)
-
-As a whole, the mode has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output. 
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{./images/Resnet.png}
+            \caption{Resnet node}
+            \label{}
+        \end{figure}
 
    \subsection{Study Aggregation} \label{sec:struct-aggr}
 
 \section{Experiments} \label{sec:experiments}
 
 \section{Results} \label{sec:results}
+
+\section{Further Investigation} \label{sec:further}
 
 \section{Conclusion} \label{sec:conclusion}
 
