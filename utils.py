@@ -57,6 +57,3 @@ def slice_sector(frames, num_sectors: int):
             )
 
     return new_frames
-
-
-get_lidc_dataframes("/home/dblincoe/Desktop/Deep Learning LIDC/lidc", 13)
