@@ -183,7 +183,7 @@
       from 1-5, where 1 means highly unlikely to be malignant and 5 meaning highly malignant. They then denoted the datasets as
       S1, S2, S3, S4, and S5, respectively. They then tested on two designs: S1 vs S45 and S12 vs S45 with 80\% of the data
       for training and the other 20\% for testing.
-
+    
       While this method is using a combined ML and DL algorithms, it performed significantly well. For the design of S1 vs S45,
       they achieving a result of 96.2\% accuracy, 96.2\% sensitivity, 96.2\% specificity, and AUC of 0.989 for a CNN of 21 x 21 x 5 with the QIF
       features. For the design of S12 vs S45, the same model has found a result of 93.2\% accuracy, 87.9\% sensitivity, 98.5\% specificity, and AUC of 0.985.
@@ -333,16 +333,24 @@
       The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
 
+   \subsection{General Performance} \label{sec:experiments-general-performance}
+
+      In the first epoch, the accuracy is essentially randomly choosing between the three labels, but it incrementally climbs until on the 10th and final epoch, it reaches about 60%. A final accuracy of 60% does not seem very high, but given this a multi-class problem, this is still significantly higher than the expected value if the classifier randomly chose a label. 
+   \subsection{Varying Sector Number} \label{sec:experiments-sector}
+
+
+   \subsection{Varying Image Resolution} \label{sec:experiements-res}
+
 \section{Conclusion} \label{sec:conclusion}
 
    \subsection{Further Investigation} \label{sec:further}
 
       \subsubsection{Identifying Tumors} \label{sec:id-tumor}
-
+    
          One approach to tumor identification is the use of autoencoders rather than CNNs or residual neural networks. In the autoencoder context, \ref{sec:related-dl-vs-ml} gives some context on how autoencoders have been used in this area. In one such example, lung cancer screenings with tumors are input into the autoencoder, and initially, the output is the same size as the input and identifies the tumor, with the rest of the picture blank (i.e. it only identifies the tumor in the output). This process is repeated and the autoencoder learns how to identify the varying shapes and sizes of tumors within lungs. This extension could be paired with another algorithm, like ours, to identify whether a tumor is malignant or benign. 
-
+    
       \subsubsection{Classifying Tumors} \label{sec:classify-tumor}
-
+    
          Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models. In order to both identify and diagnose a tumor, we could use a similar method to that used in \ref{sec:related-deep-residual-networks}. First, in order to identify the tumor, we could run along the coronal plane of a scan. Then, when we have identified the slices of the lung that have a tumor (if it exists), we can use all three planes (coronal, sagital, and axial) in order to diagnose the tumor. This would allow us a full dimension worth of data more than we are currently using, so it likely would help with accuracy. 
 
 
