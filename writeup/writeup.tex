@@ -182,26 +182,26 @@
 \section{Project Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. The image below illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
-
-         For our project, we are using the ResNet-50 pretrained model for Keras. The architecture of the model can be seen in the image below.
-
-         \begin{figure}[h]
-            \centering
-            \includegraphics[width=0.4\textwidth]{./images/Keras Resnet-50.png}
-            \caption{Architecture of Resnet-50}
-            \label{}
-         \end{figure}
-
-         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
-
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
         \begin{figure}[h]
             \centering
-            \includegraphics[width=0.4\textwidth]{./images/Resnet.png}
-            \caption{Resnet node}
-            \label{}
+            \includegraphics[width=0.4\textwidth]{./images/residual.png}
+            \caption{Residual Node}
+            \label{fig:struct-cnn-residual}
         \end{figure}
+
+        For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pretrained model for Keras. The architecture of the model can be seen in the image below.
+
+        \begin{figure*}
+            \begin{center}
+                \includegraphics[width=\textwidth]{./images/Resnet-50.png}
+            \end{center}
+               \caption{Architecture of Resnet-5}
+            \label{fig:struct-cnn-resnet}
+        \end{figure*}
+
+         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
 
