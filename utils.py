@@ -43,7 +43,9 @@ def slice_sector(frames, num_sectors: int):
         for frame in frames:
             lower = sector_size * sector_idx
             upper = sector_size * (sector_idx + 1)
-            new_frames[-1] = new_frames[-1].append(frame.iloc[lower:upper])
+            new_frames[-1] = new_frames[-1].append(
+                frame.iloc[lower:upper], ignore_index=True
+            )
 
     return new_frames
 
