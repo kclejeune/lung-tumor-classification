@@ -6,7 +6,7 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.models import Model
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
-from utils import get_lidc_dataframes
+from utils import get_lidc_dataframes, test_example, load_model_weights
 
 TRAIN = True
 
