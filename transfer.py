@@ -1,5 +1,6 @@
 import os
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.callbacks import ModelCheckpoint
 from keras.layers import Activation, Dense, Dropout, Flatten
@@ -104,25 +105,25 @@ for train_df in train_gen:
 
 
 # Plot the training and validation loss + accuracy
-def plot_training(history):
-    for hist in history:
-        acc = hist.history["acc"]
-        val_acc = hist.history["val_acc"]
-        loss = hist.history["loss"]
-        val_loss = hist.history["val_loss"]
-        epochs = range(len(acc))
+# def plot_training(history):
+#     for hist in history:
+#         acc = hist.history["acc"]
+#         val_acc = hist.history["val_acc"]
+#         loss = hist.history["loss"]
+#         val_loss = hist.history["val_loss"]
+#         epochs = range(len(acc))
 
-        plt.plot(epochs, acc, "r.")
-        plt.plot(epochs, val_acc, "r")
-        plt.title("Training and validation accuracy")
-        plt.show()
+#         plt.plot(epochs, acc, "r.")
+#         plt.plot(epochs, val_acc, "r")
+#         plt.title("Training and validation accuracy")
+#         plt.show()
 
-        plt.savefig("acc_vs_epochs.png")
+#         plt.savefig("acc_vs_epochs.png")
 
-    # plt.figure()
-    # plt.plot(epochs, loss, 'r.')
-    # plt.plot(epochs, val_loss, 'r-')
-    # plt.title('Training and validation loss')
+# plt.figure()
+# plt.plot(epochs, loss, 'r.')
+# plt.plot(epochs, val_loss, 'r-')
+# plt.title('Training and validation loss')
 
 
-plot_training(history)
+# plot_training(history)
