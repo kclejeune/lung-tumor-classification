@@ -119,6 +119,22 @@
 
 \section{Related Works} \label{sec:works}
 
+   \subsection{Machine Learning vs Deep Learning Algorithms} \label{sec:related-dl-vs-ml}
+      In the paper by \cite{ml_vs_dl}, the authors sought out to systematically compare the results and algorithms of
+      several works of literature regarding the detection of lung modules in the LIDC-IDRI database.
+      Out of the initial 1972 publications found in their search, the authors assessed the eligibility of 180 papers
+      and found only 41 of which satisfied their for data requirements and were thus considered for their discussion.
+
+      various algorithms in machine learning and deep learning used to classify differ
+      discussed
+      various papers in
+
+   \subsection{Deep Residual Networks} \label{sec:related-deep-residual-networks}
+
+
+   \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
+
+
 \section{Datasets} \label{sec:data}
    For this research we needed to obtain two separate datasets to fit two
    distinct roles. ImageNet, \ref{sec:data-imagenet}, was needed to train
@@ -177,7 +193,7 @@
             \caption{Architecture of Resnet-50}
             \label{}
          \end{figure}
-    
+
          As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convulutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
 
