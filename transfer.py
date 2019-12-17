@@ -2,14 +2,11 @@ import os
 import matplotlib.pyplot as plt
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.callbacks import ModelCheckpoint
-from keras.layers import Activation, Dense, Dropout, Flatten
-from keras.models import Model, Sequential, load_model
-from keras.optimizers import SGD, Adam
+from keras.layers import Dense, Dropout, Flatten
+from keras.models import Model
+from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
-from utils import get_keybase_team, get_lidc_dataframes
-from os.path import dirname, abspath, join
-import glob
-
+from utils import get_lidc_dataframes
 
 TRAIN = False
 
@@ -132,24 +129,5 @@ if TRAIN:
     plot_training(history, i)
 
 
-def load_model_weights():
-    current_folder = dirname(abspath(__file__))
-    checkpoints_folder = join(current_folder, "checkpoints/ResNet50/")
-    weight_files = []
-    for filename in sorted(glob.glob(os.path.join(checkpoints_folder, "*.h5"))):
-        weight_files.append(filename)
-    models = []
-    for weight in weight_files:
-        model = load_model(weight)
-        models.append(model)
-    return models
-
-
-def test_example(models, examples_path):
-    frame_list = get_lidc_dataframes(examples_path, len(models))
-    for frame in frame_list:
-        files = (frame["File"], frame["Label"])
-        for model, file in zip(models, files):
-            preds = model.predict(file[0])
 
 

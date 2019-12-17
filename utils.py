@@ -2,7 +2,8 @@ import os
 import platform
 import pandas as pd
 from glob import glob
-
+from os.path import dirname, abspath, join
+from keras.models import load_model
 
 def get_keybase_root(dir: str = ""):
     if platform.system().lower() == "windows":
@@ -57,3 +58,23 @@ def slice_sector(frames, num_sectors: int):
 
     return new_frames
 
+
+def load_model_weights():
+    current_folder = dirname(abspath(__file__))
+    checkpoints_folder = join(current_folder, "checkpoints/ResNet50/")
+    weight_files = []
+    for filename in sorted(glob(os.path.join(checkpoints_folder, "*.h5"))):
+        weight_files.append(filename)
+    models = []
+    for weight in weight_files:
+        model = load_model(weight)
+        models.append(model)
+    return models
+
+
+def test_example(models, examples_path):
+    frame_list = get_lidc_dataframes(examples_path, len(models))
+    for frame in frame_list:
+        files = (frame["File"], frame["Label"])
+        for model, file in zip(models, files):
+            preds = model.predict(file[0])
