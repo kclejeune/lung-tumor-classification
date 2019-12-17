@@ -56,14 +56,14 @@
    and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to
    choose and classify DICOM slices. We propose an inductive transfer learning approach which applies hidden layer
    image representations from a residual neural network to our lung nodule classifier to classify groups of slices and provide
-   recommendations to a user as to what groups may contain possible nodules.
+   recommendations to a user as to what groups may contain possible benign or malignant nodules.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
 
    Traditionally, Machine Learning problems rely on the assumption that the training data and future data domains
    are in the same feature space and have the same distribution (Pan, Yang). However, a large number of real world
-   applications perform poorly when these assumptions are not met. A common instance of is a classification task on
+   applications perform poorly when these assumptions are not met. A common instance of this is a classification task on
    a restricted domain of interest (e.g. classifying malignant brain tumors) with minimal or unlabeled training data,
    but we have sufficient training data in another domain of interest (e.g. classifying malignant lung carcinomas).
    Transfer Learning aims to solve this problem by adapting the knowledge acquired from a training task or
@@ -80,13 +80,13 @@
    \subsection{Types of Transfer Learning} \label{sec:intro-types}
 
       1. $D_S = D_T, T_S\neq T_T$ (Inductive Transfer, \ref{sec:intro-types-inductive})
-
+    
       2. $D_S\neq D_T, T_S = T_T$ (Transductive Transfer, \ref{sec:intro-types-transductive})
-
+    
       3. $T_S\neq T_T$ and $D_S, D_T$ are unlabeled (Unsupervised Transfer, \ref{sec:intro-types-unsupervised})
-
+    
       \subsubsection{Inductive Transfer Learning} \label{sec:intro-types-inductive}
-
+    
          In Inductive Transfer Learning, the domain of the source and target tasks is the same. In this case, labeled data
          from the target task must be available in order to induce the predictive function that we want the classifier to learn.
          There are two situations in inductive transfer learning: one where labeled source data is available, and one where it
@@ -95,22 +95,21 @@
          classifier attempts to learn several classification tasks at the same time, except in this case we only care about
          the performance on a single target task, and are hoping to use knowledge learned from the other tasks in order to
          improve performance on said target task.
-
+    
       \subsubsection{Transductive Transfer Learning} \label{sec:intro-types-transductive}
          Transductive Transfer Learning focuses on an area in which the source and target tasks are the same, but the domains
          differ. The data used in the target domain is unlabeled, whereas there is an abundance of labeled data in the source
          domain. Transductive transfer learning can be broken down even further, into two specific scenarios: the first, in
          which the target and source domains have a different feature space; and the second, where the feature space is the
          same, but the input data have different marginal probability distributions.
-
+    
       \subsubsection{Unsupervised Transfer Learning} \label{sec:intro-types-unsupervised}
          Unsupervised Transfer Learning focuses on a setting where there is no labeled data for either the source and target
          domains, and the target task is different from the source task. This situation is common in areas such as clustering
          and dimensionality reduction.
 
-
 \subsection{Classification Problem} \label{sec:intro-class}
-	Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn that information itself and can focus specifically on classifying benign or malignant tumors.
+	Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn the representation itself and can focus specifically on classifying benign or malignant tumors.
 
 %-------------------------------------------------------------------------
 
@@ -126,7 +125,7 @@
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
       and AUC of 0.905-0.998.
-
+    
       Amongst the algorithms that were used in the deep learning category, the convolution neural network (CNN) was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
@@ -161,18 +160,18 @@
       and benign labels, the annotations performed on a specific node were averaged and for malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
       considered benign, based upon the 4 radiologists predictions.
-
+    
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
-
+    
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
          and communicating image data. The structures of these files are extremely robust and offer many access in
          the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
-
+    
          The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
          ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
@@ -188,9 +187,9 @@
             \caption{Residual Node}
             \label{fig:struct-cnn-residual}
         \end{figure}
-
+    
         For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pre-trained model for Keras. The architecture of the model can be seen in the image below.
-
+    
         \begin{figure*}
             \begin{center}
                 \includegraphics[width=\textwidth]{./images/Resnet-50.png}
@@ -198,7 +197,7 @@
             \caption{Architecture of ResNet-5}
             \label{fig:struct-cnn-resnet}
         \end{figure*}
-
+    
          As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
@@ -208,7 +207,7 @@
         physical portions of the CT scans. For example, every studies full chest CT scan was scaled to be just 65 slices. If the {\it sector\_number} $=13$,
         there will be 13 bins starting with bin 1 at the top of the chest and bin 13 at the bottom. Here, each bin will be comprised
         of $5$ slices from each study.
-
+    
         Once there are $x$ independent CNN models trained, the output of the classifier given a study will
         be the slice numbers that should be looked at closely.
 
@@ -228,12 +227,23 @@
 
 \section{Further Investigation} \label{sec:further}
 
+​	There are two general problems within the broader classification problem: first, identifying whether a lung has a tumor and, if it does, classifying that tumor as malignant or benign. Further work can be broken down into these two subsections
+
+​	\subsection{Identifying Tumors} \label{sec:id-tumor}
+
+​		One approach to tumor identification is the use of autoencoders rather than CNNs or residual neural networks. In the autoencoder context, \ref{sec:related-dl-vs-ml} gives some context on how autoencoders have been used in this area. In one such example, lung cancer screenings with tumors are input into the autoencoder, and initially, the output is the same size as the input and identifies the tumor, with the rest of the picture blank (i.e. it only identifies the tumor in the output). This process is repeated and the autoencoder learns how to identify the varying shapes and sizes of tumors within lungs. This extension could be paired with another algorithm, like ours, to identify whether a tumor is malignant or benign. 
+
+​	\subsection{Classifying Tumors} \label{sec:classify-tumor}
+
+​		Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models 
+
 \section{Conclusion} \label{sec:conclusion}
 
 
 
 {\small
 \bibliographystyle{ieee}
+
 \bibliography{egbib}
 }
 
