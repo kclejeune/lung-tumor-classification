@@ -18,8 +18,7 @@ def get_keybase_team(team_name: str):
 
 
 def get_lidc_dataframes(data_path: str, num_sectors: int):
-    sorted_studies = sorted(glob(data_path + "/*"))
-
+    sorted_studies = sorted(glob(os.path.join(data_path, "*")))
     frames = []
     for study in sorted_studies:
         df_temp = pd.read_csv(
