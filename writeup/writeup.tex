@@ -121,8 +121,9 @@
       several works of literature regarding the detection of lung modules in the LIDC-IDRI database.
       Out of the initial 1972 publications found in their search, the authors assessed the eligibility of 180 papers
       and found only 41 of which satisfied their for data requirements and were thus considered for their discussion.
+      The two primary groups of algorithms are machine learning (ML) and deep learning (DL).
 
-      Amongst the algorithms found in the feature-based framework in the machine learning category, the most popular
+      Amongst the algorithms found in the feature-based framework in the machine learning (ML) category, the most popular
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
       and AUC of 0.905-0.998.
@@ -131,10 +132,44 @@
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
 
+      While there is a greater range in the predictions between the SVM algorithms, both categories of DL and ML algorithms
+      contain significantly high levels of accuracy, sensitivity, and specificity. The researchers concluded that
+      while deep learning algorithms reduce the need for feature construction of the images, there appears that some
+      machine learning algorithms are still very useful for efficient classification. However, there appears to be no
+      consensus on which clinical settings in which ML algorithms would be more appropriately used.
 
+   \subsection{ResNet: Deep Residual Networks} \label{sec:related-deep-residual-networks}
+      In the paper \cite{deep_residual_network}, the authors described both the advantages and disadvantages of using
+      CNNs to classify malignant lung nodules, and how using a deep residual network addresses its disadvantages.
+      While a CNNs help remove the need for any hand-crafted feature engineering from images by learning discriminative
+      features from the data directly, they work the best handling classification classes that are more visually distinct
+      while nodule classification tasks are more subtle. Moreover, the publicly available datasets are small compared to
+      most other image classification datasets (thousands vs millions). Therefore the researchers attempted to address
+      the following questions in their work:
 
-   \subsection{Deep Residual Networks} \label{sec:related-deep-residual-networks}
+      1. Does increasing the depth of neural networks help with the task of lung nodule classification?
 
+      2. How can we leverage transfer learning to achieve higher accuracy?
+
+      3. Can accuracy be improved by using a training curriculum?
+
+      The proposed solution to this problem is through using a deep residual network (ResNet). To address the first question,
+      the researchers designed a ResNet architecture that was much deeper than the lung nodule classification systems
+      using CNNs in their cited sources. The increased depth came as a result of advancements such as batch normalization
+      and residual learning with ResNets. To address the second question of using transfer learning, the researchers
+      have pretrained on a generated column parameters using the CIFAR-10 (a large image classification dataset) before
+      training on the smaller nodule dataset. To address the third question, the researchers described a way to quantify the
+      difficulty of examples for the task of nodule classfication and use it to create their training curriculum. In addition,
+      they presented two main sets of results: the first of which is a report on the positive influences that deeper networks, transfer learning, and curriculum
+      learning have on the accuracy of the classification, and the second of which is the comparison of their system
+      against implementations of existing models under the same training and testing conditions.
+
+      The final comparison of results showed that the deepest custom CNN found in their related works yielded a sensitivity of
+      89.21\%, specificity of 84.96\%, precision of 86.31\%, AUROC of 0.9342, and accuracy of 87.18\%, while their model
+      yielded a sensitivity of 91.07\%, specificity of 88.64\%, precision of 89.35\%, AUROC of 0.9459, and accuracy of 89.90\%.
+      This showed that by overcoming the overfitting discrepancy between their model and existing CNN architectures, the
+      deeper and more complex learning model with the increased representational power of having a pretrained model
+      allowed them to create a highly accurate model for classfying CT scans.
 
    \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
 
