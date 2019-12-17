@@ -126,11 +126,11 @@
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
       and AUC of 0.905-0.998.
-
+    
       Amongst the algorithms that were used in the deep learning category, the convolution neural network (CNN) was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
-
+    
       While there is a greater range in the predictions between the SVM algorithms, both categories of DL and ML algorithms
       contain significantly high levels of accuracy, sensitivity, and specificity. The researchers concluded that
       while deep learning algorithms reduce the need for feature construction of the images, there appears that some
@@ -147,11 +147,11 @@
       the following questions in their work:
 
       1. Does increasing the depth of neural networks help with the task of lung nodule classification?
-
+    
       2. How can we leverage transfer learning to achieve higher accuracy?
-
+    
       3. Can accuracy be improved by using a training curriculum?
-
+    
       The proposed solution to this problem is through using a deep residual network (ResNet). To address the first question,
       the researchers designed a ResNet architecture that was much deeper than the lung nodule classification systems
       using CNNs in their cited sources. The increased depth came as a result of advancements such as batch normalization
@@ -162,7 +162,7 @@
       they presented two main sets of results: the first of which is a report on the positive influences that deeper networks, transfer learning, and curriculum
       learning have on the accuracy of the classification, and the second of which is the comparison of their system
       against implementations of existing models under the same training and testing conditions.
-
+    
       The final comparison of results showed that the deepest custom CNN found in their related works yielded a sensitivity of
       89.21\%, specificity of 84.96\%, precision of 86.31\%, AUROC of 0.9342, and accuracy of 87.18\%, while their model
       yielded a sensitivity of 91.07\%, specificity of 88.64\%, precision of 89.35\%, AUROC of 0.9459, and accuracy of 89.90\%.
@@ -283,7 +283,7 @@
          Number of Sectors: $5$ \\
          Scan size: $128 \times 128$
       \end{center}
-
+    
       \begin{figure}[h]
          \centering
          \includegraphics[width=0.23\textwidth]{./images/training_accuracy_5_sector_128_px.png}
@@ -291,9 +291,9 @@
          \caption{General Baseline Accuracy and Loss(Sector 1)}
          \label{fig:experiments-general-acc-loss}
       \end{figure}
-
+    
       The above figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
-
+    
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
       \subsubsection{1 Sector Model} \label{sec:experiments-sector-13}
@@ -305,23 +305,23 @@
 
          \begin{figure}[h]
             \centering
-            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-            \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_1_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_loss_1_sector_128_px.png}
             \caption{1 Sector Model Accuracy and Loss (Sector 1)}
             \label{fig:experiments-1-sector-acc-loss}
          \end{figure}
-
+    
          The above figure \ref{fig:experiments-1-sector-acc-loss} shows the accuracy and loss of the 1 sector model over 10 epochs.
-
+    
          This model was run on $10,050$ scans.
-
+    
       \subsubsection{13 Sector Model} \label{sec:experiments-sector-13}
          In this model, there are 13 sectors used to divide the chest CT. This is an increase of 7 sectors from \ref{sec:experiments-general-performance}.
          \begin{center}
             Number of Sectors: $13$ \\
             Scan size: $128 \times 128$
          \end{center}
-
+    
          \begin{figure}[h]
             \centering
             \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
@@ -329,9 +329,9 @@
             \caption{13 Sector Model Accuracy and Loss (Sector 1)}
             \label{fig:experiments-13-sector-acc-loss}
          \end{figure}
-
+    
          The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
-
+    
          The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
    \subsection{Varying Image Resolution} \label{sec:experiements-res}
       In this model, the number of pixels is reduced by half. This is a from $128 \times 128$ to $64 \times 64$ sectors from \ref{sec:experiments-general-performance}.
@@ -342,24 +342,31 @@
 
       \begin{figure}[h]
          \centering
-         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_5_sector_64_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_5_sector_64_px.png}
          \caption{64x64 Model Accuracy and Loss (Sector 1)}
          \label{fig:experiments-64-px-acc-loss}
       \end{figure}
-
-      The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
-
+    
+      The above figure \ref{fig:experiments-64-px-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+    
       The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
 
-   \subsection{General Performance} \label{sec:experiments-general-performance}
+   \subsection{General Performance} \label{sec:results-general-performance}
 
-      In the first epoch, the accuracy is essentially randomly choosing between the three labels, but it incrementally climbs until on the 10th and final epoch, it reaches about 60\%. A final accuracy of 60\% does not seem very high, but given this a multi-class problem, this is still significantly higher than the expected value if the classifier randomly chose a label. 
-   \subsection{Varying Sector Number} \label{sec:experiments-sector}
+      In the first epoch, the accuracy is essentially randomly choosing between the three labels, but it incrementally climbs until on the 10th and final epoch, it reaches about 55\%. A final accuracy of 55\% does not seem very high, but given this a multi-class problem, this is still significantly higher than the expected value if the classifier randomly chose a label.
 
+   \subsection{Varying Sector Number} \label{sec:results-sector}
 
-   \subsection{Varying Image Resolution} \label{sec:experiements-res}
+      \subsubsection{1 Sector Model} \label{sec:results-sector-1}
+
+      \subsubsection{13 Sector Model} \label{sec:results-sector-13}
+         Similar to the base model, which had 5 sectors, the first epoch of the 13 sector model ends with an accuracy approximately the same as random guessing. However, the accuracy of the 13 sector model actually climbs slightly higher, to a final accuracy of about 60\%. This supports the claim that dividing the image into more sectors allows for more accuracy, though it takes longer to run. 
+
+   \subsection{Varying Image Resolution} \label{sec:results-res}
+
+​		Changing the image resolution decreased the accuracy significantly. It climbs only slightly, from initially around random to a final of about 40\%, which finishes 15\% below that of the base model. This is likely because the image is less clear and harder to differentiate between what is and what is not a tumor. 
 
 \section{Conclusion} \label{sec:conclusion}
 
