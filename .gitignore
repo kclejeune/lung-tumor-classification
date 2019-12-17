@@ -11,3 +11,5 @@ venv/
 *.synctex.gz
 *.pyc
 **/__pycache__
+*.h5
+.DS_STORE
