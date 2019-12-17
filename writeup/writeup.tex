@@ -280,34 +280,57 @@
       To evaluate the general performance of the model above, \ref{sec:struct},the following parameters are used as a baseline.
 
       \begin{center}
+         Number of Sectors: $5$ \\
+         Scan size: $128 \times 128$
+      \end{center}
+
+      \begin{figure}[h]
+         \centering
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \caption{General Baseline Accuracy and Loss(Sector 1)}
+         \label{fig:experiments-general-acc-loss}
+      \end{figure}
+
+      The above figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
+
+      The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
+   \subsection{Varying Sector Number} \label{sec:experiments-sector}
+      In this model, there are 13 sectors used to divide the chest CT. This is an increase of 7 sectors from \ref{sec:experiments-general-performance}.
+      \begin{center}
          Number of Sectors: $13$ \\
          Scan size: $128 \times 128$
       \end{center}
 
       \begin{figure}[h]
          \centering
-         \includegraphics[width=0.4\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-         \caption{General Baseline Accuracy (Sector 1)}
-         \label{fig:experiments-general-acc}
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \caption{13 Sector Model Accuracy and Loss (Sector 1)}
+         \label{fig:experiments-13-sector-acc-loss}
       \end{figure}
 
-      The above figure \ref{fig:experiments-general-acc} shows the accuracy of the general baseline model over 10 epochs for the first sector.
+      The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+
+      The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
+   \subsection{Varying Image Resolution} \label{sec:experiements-res}
+      In this model, the number of pixels is reduced by half. This is a from $128 \times 128$ to $64 \times 64$ sectors from \ref{sec:experiments-general-performance}.
+      \begin{center}
+         Number of Sectors: $5$ \\
+         Scan size: $64 \times 64$
+      \end{center}
 
       \begin{figure}[h]
          \centering
-         \includegraphics[width=0.4\textwidth]{./images/training_loss_13_sector_128_px.png}
-         \caption{General Baseline Loss (Sector 1)}
-         \label{fig:experiments-general-loss}
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \caption{64x64 Model Accuracy and Loss (Sector 1)}
+         \label{fig:experiments-64-px-acc-loss}
       \end{figure}
 
-      Figure \ref{fig:experiments-general-loss} shows the loss for the baseline model over 10 epochs for the first sector.
+      The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
 
-      The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
-   \subsection{Varying Sector Number} \label{sec:experiments-sector}
-
-
-   \subsection{Varying Image Resolution} \label{sec:experiements-res}
-
+      The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
 
 \section{Conclusion} \label{sec:conclusion}
