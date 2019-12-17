@@ -9,6 +9,11 @@ from keras.preprocessing.image import ImageDataGenerator
 from utils import get_keybase_team, get_lidc_dataframes
 
 
+experiment_dir = "13models_5slices_128px"
+figs_dir = f"figs/{experiment_dir}/"
+os.makedirs(figs_dir, exist_ok=True)
+
+
 def build_finetune_model(base_model, dropout, fc_layers, num_classes):
     for layer in base_model.layers:
         layer.trainable = False
@@ -38,7 +43,7 @@ def plot_training(hist, i):
     plt.xlabel("Epochs")
     plt.ylabel("Accuracy")
     plt.title(f"Model {i} Training Accuracy")
-    plt.savefig(f"figs/training_accuracy_m{i}")
+    plt.savefig(f"figs/{experiment_dir}/training_accuracy_m{i}")
     plt.figure()
     loss = hist.history["loss"]
     # val_loss = hist.history["val_loss"]
@@ -47,7 +52,7 @@ def plot_training(hist, i):
     plt.ylabel("Loss")
     # plt.plot(epochs, val_loss, label="Validation Loss")
     plt.title(f"Model {i} Training Loss")
-    plt.savefig(f"figs/training_loss_m{i}.png")
+    plt.savefig(f"figs/{experiment_dir}/training_loss_m{i}.png")
     plt.figure()
 
 
@@ -55,7 +60,7 @@ def plot_training(hist, i):
 # establish base model image dimensions
 HEIGHT, WIDTH = 128, 128
 TRAIN_DIR = os.path.realpath("/Users/kclejeune/Downloads/lidc")
-NUM_SLICES = 5
+NUM_SLICES = 13
 # 10 studies per batch
 BATCH_SIZE = NUM_SLICES * 10
 NUM_EPOCHS = 10
@@ -106,6 +111,8 @@ for i, frame in enumerate(dataframes):
     finetune_model.compile(
         optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"]
     )
+    file_dir = os.path.join("checkpoints", "ResNet50")
+    os.makedirs(file_dir, exist_ok=True)
     filepath = os.path.join("checkpoints", "ResNet50", f"_model_weights_{i}.h5")
     history = finetune_model.fit_generator(
         train_generator,
