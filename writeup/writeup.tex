@@ -80,13 +80,13 @@
    \subsection{Types of Transfer Learning} \label{sec:intro-types}
 
       1. $D_S = D_T, T_S\neq T_T$ (Inductive Transfer, \ref{sec:intro-types-inductive})
-    
+
       2. $D_S\neq D_T, T_S = T_T$ (Transductive Transfer, \ref{sec:intro-types-transductive})
-    
+
       3. $T_S\neq T_T$ and $D_S, D_T$ are unlabeled (Unsupervised Transfer, \ref{sec:intro-types-unsupervised})
-    
+
       \subsubsection{Inductive Transfer Learning} \label{sec:intro-types-inductive}
-    
+
          In Inductive Transfer Learning, the domain of the source and target tasks is the same. In this case, labeled data
          from the target task must be available in order to induce the predictive function that we want the classifier to learn.
          There are two situations in inductive transfer learning: one where labeled source data is available, and one where it
@@ -95,21 +95,28 @@
          classifier attempts to learn several classification tasks at the same time, except in this case we only care about
          the performance on a single target task, and are hoping to use knowledge learned from the other tasks in order to
          improve performance on said target task.
-    
+
       \subsubsection{Transductive Transfer Learning} \label{sec:intro-types-transductive}
          Transductive Transfer Learning focuses on an area in which the source and target tasks are the same, but the domains
          differ. The data used in the target domain is unlabeled, whereas there is an abundance of labeled data in the source
          domain. Transductive transfer learning can be broken down even further, into two specific scenarios: the first, in
          which the target and source domains have a different feature space; and the second, where the feature space is the
          same, but the input data have different marginal probability distributions.
-    
+
       \subsubsection{Unsupervised Transfer Learning} \label{sec:intro-types-unsupervised}
          Unsupervised Transfer Learning focuses on a setting where there is no labeled data for either the source and target
          domains, and the target task is different from the source task. This situation is common in areas such as clustering
          and dimensionality reduction.
 
 \subsection{Classification Problem} \label{sec:intro-class}
-	Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn the representation itself and can focus specifically on classifying benign or malignant tumors.
+   Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes 
+   to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely 
+   valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as 
+   classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore 
+   help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, 
+   however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn 
+   the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn the representation 
+   itself and can focus specifically on classifying benign or malignant tumors.
 
 %-------------------------------------------------------------------------
 
@@ -126,11 +133,11 @@
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
       and AUC of 0.905-0.998.
-    
+
       Amongst the algorithms that were used in the deep learning category, the convolution neural network (CNN) was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
-    
+
       While there is a greater range in the predictions between the SVM algorithms, both categories of DL and ML algorithms
       contain significantly high levels of accuracy, sensitivity, and specificity. The researchers concluded that
       while deep learning algorithms reduce the need for feature construction of the images, there appears that some
@@ -147,28 +154,28 @@
       the following questions in their work:
 
       1. Does increasing the depth of neural networks help with the task of lung nodule classification?
-    
+
       2. How can we leverage transfer learning to achieve higher accuracy?
-    
+
       3. Can accuracy be improved by using a training curriculum?
-    
+
       The proposed solution to this problem is through using a deep residual network (ResNet). To address the first question,
       the researchers designed a ResNet architecture that was much deeper than the lung nodule classification systems
       using CNNs in their cited sources. The increased depth came as a result of advancements such as batch normalization
       and residual learning with ResNets. To address the second question of using transfer learning, the researchers
-      have pretrained on a generated column parameters using the CIFAR-10 (a large image classification dataset) before
+      have pre-trained on a generated column parameters using the CIFAR-10 (a large image classification dataset) before
       training on the smaller nodule dataset. To address the third question, the researchers described a way to quantify the
-      difficulty of examples for the task of nodule classfication and use it to create their training curriculum. In addition,
+      difficulty of examples for the task of nodule classification and use it to create their training curriculum. In addition,
       they presented two main sets of results: the first of which is a report on the positive influences that deeper networks, transfer learning, and curriculum
       learning have on the accuracy of the classification, and the second of which is the comparison of their system
       against implementations of existing models under the same training and testing conditions.
-    
+
       The final comparison of results showed that the deepest custom CNN found in their related works yielded a sensitivity of
       89.21\%, specificity of 84.96\%, precision of 86.31\%, AUROC of 0.9342, and accuracy of 87.18\%, while their model
       yielded a sensitivity of 91.07\%, specificity of 88.64\%, precision of 89.35\%, AUROC of 0.9459, and accuracy of 89.90\%.
-      This showed that by overcoming the overfitting discrepancy between their model and existing CNN architectures, the
-      deeper and more complex learning model with the increased representational power of having a pretrained model
-      allowed them to create a highly accurate model for classfying CT scans.
+      This showed that by overcoming the over-fitting discrepancy between their model and existing CNN architectures, the
+      deeper and more complex learning model with the increased representational power of having a pre-trained model
+      allowed them to create a highly accurate model for classifying CT scans.
 
    \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
       This paper \cite{nodulex} introduces another systematics approach for lung cancer malignancy classification called
@@ -176,14 +183,14 @@
       through a successive 2-D multi-channel convolution and max pooling layers to produce spacial 1-D "feature vector",
       and then processed into a final classification layer in which a softmax function predicts its output. In addition
       to a CNN architecture, the authors used a radiological quantitative image features (QIF) model to integrate
-      the CNN features with radiological features. The predictive model then extracted from the CNN feature vectors concatentated
+      the CNN features with radiological features. The predictive model then extracted from the CNN feature vectors concatenated
       with the features from QIF are then used as inputs to a trained random forest classifier.
 
       The dataset they trained on was the LIDC-IDRI. They processed on 1065 nodules with different malignancy scores ranging
       from 1-5, where 1 means highly unlikely to be malignant and 5 meaning highly malignant. They then denoted the datasets as
       S1, S2, S3, S4, and S5, respectively. They then tested on two designs: S1 vs S45 and S12 vs S45 with 80\% of the data
       for training and the other 20\% for testing.
-    
+
       While this method is using a combined ML and DL algorithms, it performed significantly well. For the design of S1 vs S45,
       they achieving a result of 96.2\% accuracy, 96.2\% sensitivity, 96.2\% specificity, and AUC of 0.989 for a CNN of 21 x 21 x 5 with the QIF
       features. For the design of S12 vs S45, the same model has found a result of 93.2\% accuracy, 87.9\% sensitivity, 98.5\% specificity, and AUC of 0.985.
@@ -215,18 +222,18 @@
       and benign labels, the annotations performed on a specific node were averaged and for malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
       considered benign, based upon the 4 radiologists predictions.
-    
+
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
          to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
-    
+
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
          and communicating image data. The structures of these files are extremely robust and offer many access in
          the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
-    
+
          The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
          ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
@@ -234,7 +241,14 @@
 \section{Project Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures.
+        Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so
+        the performance can degrade in earlier layers. This can result in worse performance for deeper models than
+        shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt
+        to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become
+        infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both
+        passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the
+        activation function and avoid the vanishing gradient problem.
 
         \begin{figure}[h]
             \centering
@@ -242,9 +256,9 @@
             \caption{Residual Node}
             \label{fig:struct-cnn-residual}
         \end{figure}
-    
+
         For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pre-trained model for Keras. The architecture of the model can be seen in the image below.
-    
+
         \begin{figure*}
             \begin{center}
                 \includegraphics[width=\textwidth]{./images/Resnet-50.png}
@@ -252,24 +266,33 @@
             \caption{Architecture of ResNet-5}
             \label{fig:struct-cnn-resnet}
         \end{figure*}
-    
-         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
+
+         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first
+         stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists
+         of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional
+         blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional
+         layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU.
+         The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run
+         on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an
+         identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
 
-        A unique approach of our solution is to bin together specific locations of lung CT scans. In other words, there exists
+        A unique approach of our solution is to bin together specific locations of lung CT scans into a bucket. In other words, there exists
         a hyper-parameter called {\it sector\_num}$=x$ that will train $x$ independent ResNet models, \ref{sec:struct-cnn} on separate
         physical portions of the CT scans. For example, every studies full chest CT scan was scaled to be just 65 slices. If the {\it sector\_number} $=13$,
         there will be 13 bins starting with bin 1 at the top of the chest and bin 13 at the bottom. Here, each bin will be comprised
         of $5$ slices from each study.
-    
+
+        A bucket is defined as all scans from a specific sector over all studies.
+
         Once there are $x$ independent CNN models trained, the output of the classifier given a study will
         be the slice numbers that should be looked at closely.
 
 \section{Experiments} \label{sec:experiments}
    Three primary ideas were tested in this project. One was to determine if this model generally performed well on the given data and if it performed well
    compared to the results from \ref{sec:related-dl-vs-ml}. The second goal was to analyze if shifting the
-   {\it sector\_num} as seen in \ref{sec:struct-sector}, increased or decreased the performance of our model. The third was to see if down-sampling the 
+   {\it sector\_num} as seen in \ref{sec:struct-sector}, increased or decreased the performance of our model. The third was to see if down-sampling the
    given CT scans to a lower resolution contributed to a significant drop in accuracy.
 
    Given the way our problem setup is designed, a significant amount of slices from the CT scans did not contain tumorous growths. This led to an extremely
@@ -283,7 +306,7 @@
          Number of Sectors: $5$ \\
          Scan size: $128 \times 128$
       \end{center}
-    
+
       \begin{figure}[h]
          \centering
          \includegraphics[width=0.23\textwidth]{./images/training_accuracy_5_sector_128_px.png}
@@ -291,9 +314,9 @@
          \caption{General Baseline Accuracy and Loss(Sector 1)}
          \label{fig:experiments-general-acc-loss}
       \end{figure}
-    
+
       The above figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
-    
+
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
       \subsubsection{1 Sector Model} \label{sec:experiments-sector-13}
@@ -310,18 +333,18 @@
             \caption{1 Sector Model Accuracy and Loss (Sector 1)}
             \label{fig:experiments-1-sector-acc-loss}
          \end{figure}
-    
+
          The above figure \ref{fig:experiments-1-sector-acc-loss} shows the accuracy and loss of the 1 sector model over 10 epochs.
-    
+
          This model was run on $10,050$ scans.
-    
+
       \subsubsection{13 Sector Model} \label{sec:experiments-sector-13}
          In this model, there are 13 sectors used to divide the chest CT. This is an increase of 7 sectors from \ref{sec:experiments-general-performance}.
          \begin{center}
             Number of Sectors: $13$ \\
             Scan size: $128 \times 128$
          \end{center}
-    
+
          \begin{figure}[h]
             \centering
             \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
@@ -329,9 +352,9 @@
             \caption{13 Sector Model Accuracy and Loss (Sector 1)}
             \label{fig:experiments-13-sector-acc-loss}
          \end{figure}
-    
+
          The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
-    
+
          The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
    \subsection{Varying Image Resolution} \label{sec:experiements-res}
       In this model, the number of pixels is reduced by half. This is a from $128 \times 128$ to $64 \times 64$ sectors from \ref{sec:experiments-general-performance}.
@@ -347,9 +370,9 @@
          \caption{64x64 Model Accuracy and Loss (Sector 1)}
          \label{fig:experiments-64-px-acc-loss}
       \end{figure}
-    
+
       The above figure \ref{fig:experiments-64-px-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
-    
+
       The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
 
@@ -373,13 +396,12 @@
    \subsection{Further Investigation} \label{sec:further}
 
       \subsubsection{Identifying Tumors} \label{sec:id-tumor}
-    
-         One approach to tumor identification is the use of autoencoders rather than CNNs or residual neural networks. In the autoencoder context, \ref{sec:related-dl-vs-ml} gives some context on how autoencoders have been used in this area. In one such example, lung cancer screenings with tumors are input into the autoencoder, and initially, the output is the same size as the input and identifies the tumor, with the rest of the picture blank (i.e. it only identifies the tumor in the output). This process is repeated and the autoencoder learns how to identify the varying shapes and sizes of tumors within lungs. This extension could be paired with another algorithm, like ours, to identify whether a tumor is malignant or benign. 
-    
-      \subsubsection{Classifying Tumors} \label{sec:classify-tumor}
-    
-         Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models. In order to both identify and diagnose a tumor, we could use a similar method to that used in \ref{sec:related-deep-residual-networks}. First, in order to identify the tumor, we could run along the coronal plane of a scan. Then, when we have identified the slices of the lung that have a tumor (if it exists), we can use all three planes (coronal, sagital, and axial) in order to diagnose the tumor. This would allow us a full dimension worth of data more than we are currently using, so it likely would help with accuracy. 
 
+         One approach to tumor identification is the use of autoencoders rather than CNNs or residual neural networks. In the autoencoder context, \ref{sec:related-dl-vs-ml} gives some context on how autoencoders have been used in this area. In one such example, lung cancer screenings with tumors are input into the autoencoder, and initially, the output is the same size as the input and identifies the tumor, with the rest of the picture blank (i.e. it only identifies the tumor in the output). This process is repeated and the autoencoder learns how to identify the varying shapes and sizes of tumors within lungs. This extension could be paired with another algorithm, like ours, to identify whether a tumor is malignant or benign.
+
+      \subsubsection{Classifying Tumors} \label{sec:classify-tumor}
+
+         Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models. In order to both identify and diagnose a tumor, we could use a similar method to that used in \ref{sec:related-deep-residual-networks}. First, in order to identify the tumor, we could run along the coronal plane of a scan. Then, when we have identified the slices of the lung that have a tumor (if it exists), we can use all three planes (coronal, sagital, and axial) in order to diagnose the tumor. This would allow us a full dimension worth of data more than we are currently using, so it likely would help with accuracy. 
 
   All data used and all trained model weights are available at request, but they were not included in the report for space conservation.
 
