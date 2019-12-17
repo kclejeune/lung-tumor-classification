@@ -214,13 +214,44 @@
 
 \section{Experiments} \label{sec:experiments}
    Three primary ideas were tested in this project. One was to determine if this model generally performed well on the given data and if it performed well
-    compared to the results from \ref{sec:related-dl-vs-ml}. The second goal was to analyze if shifting the 
+   compared to the results from \ref{sec:related-dl-vs-ml}. The second goal was to analyze if shifting the 
    {\it sector\_num} as seen in \ref{sec:struct-sector}, increased or decreased the performance of our model. The third was to see if down-sampling the 
    given CT scans to a lower resolution contributed to a significant drop in accuracy.
 
+   Given the way our problem setup is designed, a significant amount of slices from the CT scans did not contain tumorous growths. This led to an extremely
+   skewed label distribution. To fix this problem for testing, the number of slices from each sector that did not contain any tumors was limited so the label
+   distribution was well distributed among the three classes (non-nodule, benign, and malignant).
+
    \subsection{General Performance} \label{sec:experiments-general-performance}
-        Sectors #13, Image 224x224
+      To evaluate the general performance of the model above, \ref{sec:struct},the following parameters are used as a baseline. 
+
+      \begin{center}
+         Number of Sectors: $13$ \\
+         Scan size: $124 \times 124$
+      \end{center}
+
+      \begin{figure}
+         \centering
+         \includegraphics[width=0.4\textwidth]{./images/residual.png}
+         \caption{General Baseline Accuracy}
+         \label{fig:experiments-general-acc}
+      \end{figure}
+
+      The above figure \ref{fig:experiments-general-acc} shows the accuracy of the general baseline model over 10 epochs.
+      The accuracy achieved is the average accuracy over the 13 sectors taken from the upper chest CT scans.
+
+      \begin{figure}
+         \centering
+         \includegraphics[width=0.4\textwidth]{./images/residual.png}
+         \caption{General Baseline Loss}
+         \label{fig:experiments-general-loss}
+      \end{figure}
+
+      Figure \ref{fig:experiments-general-loss} shows the loss for the baseline model over 10 epochs.
+
+      The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
+
 
    \subsection{Varying Image Resolution} \label{sec:experiements-res}
 
@@ -230,6 +261,10 @@
 
 \section{Conclusion} \label{sec:conclusion}
 
+
+
+
+  All data used and all trained model weights are available at request, but they were not included in the report for space conservation.
 
 
 {\small
