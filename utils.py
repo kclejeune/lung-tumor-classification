@@ -29,8 +29,6 @@ def get_lidc_dataframes(data_path: str, num_sectors: int):
         df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
         frames.append(df_temp)
 
-    print(slice_sector(frames, num_sectors))
-
     return slice_sector(frames, num_sectors)
 
 
@@ -40,10 +38,14 @@ def slice_sector(frames, num_sectors: int):
 
     new_frames = []
 
-    for frame in frames:
-        new_frames.append(pd.DataFrame(columns=["File", "Label"]))
-        for sector_idx in num_sectors:
-            new_frames[-1] = frame.iloc([(sector_size * sector_idx):(sector_size * (sector_idx + 1))])
+    for sector_idx in range(num_sectors):
+        new_frames.append(pd.DataFrame(columns=["File", "Label"], dtype=object))
+        for frame in frames:
+            lower = sector_size * sector_idx
+            upper = sector_size * (sector_idx + 1)
+            new_frames[-1] = new_frames[-1].append(frame.iloc[lower:upper])
 
     return new_frames
 
+
+get_lidc_dataframes("/home/dblincoe/Desktop/Deep Learning LIDC/lidc", 13)
