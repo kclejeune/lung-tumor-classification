@@ -286,8 +286,8 @@
 
       \begin{figure}[h]
          \centering
-         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_5_sector_128_px.png}
+         \includegraphics[width=0.23\textwidth]{./images/training_loss_5_sector_128_px.png}
          \caption{General Baseline Accuracy and Loss(Sector 1)}
          \label{fig:experiments-general-acc-loss}
       \end{figure}
@@ -296,23 +296,43 @@
 
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
-      In this model, there are 13 sectors used to divide the chest CT. This is an increase of 7 sectors from \ref{sec:experiments-general-performance}.
-      \begin{center}
-         Number of Sectors: $13$ \\
-         Scan size: $128 \times 128$
-      \end{center}
+      \subsubsection{1 Sector Model} \label{sec:experiments-sector-13}
+         In this model, there are 1 sectors used to divide the chest CT. This is a decrease of 4 sectors from \ref{sec:experiments-general-performance}.
+         \begin{center}
+            Number of Sectors: $1$ \\
+            Scan size: $128 \times 128$
+         \end{center}
 
-      \begin{figure}[h]
-         \centering
-         \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
-         \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
-         \caption{13 Sector Model Accuracy and Loss (Sector 1)}
-         \label{fig:experiments-13-sector-acc-loss}
-      \end{figure}
+         \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+            \caption{1 Sector Model Accuracy and Loss (Sector 1)}
+            \label{fig:experiments-1-sector-acc-loss}
+         \end{figure}
 
-      The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+         The above figure \ref{fig:experiments-1-sector-acc-loss} shows the accuracy and loss of the 1 sector model over 10 epochs.
 
-      The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
+         This model was run on $10,050$ scans.
+
+      \subsubsection{13 Sector Model} \label{sec:experiments-sector-13}
+         In this model, there are 13 sectors used to divide the chest CT. This is an increase of 7 sectors from \ref{sec:experiments-general-performance}.
+         \begin{center}
+            Number of Sectors: $13$ \\
+            Scan size: $128 \times 128$
+         \end{center}
+
+         \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.23\textwidth]{./images/training_accuracy_13_sector_128_px.png}
+            \includegraphics[width=0.23\textwidth]{./images/training_loss_13_sector_128_px.png}
+            \caption{13 Sector Model Accuracy and Loss (Sector 1)}
+            \label{fig:experiments-13-sector-acc-loss}
+         \end{figure}
+
+         The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+
+         The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
    \subsection{Varying Image Resolution} \label{sec:experiements-res}
       In this model, the number of pixels is reduced by half. This is a from $128 \times 128$ to $64 \times 64$ sectors from \ref{sec:experiments-general-performance}.
       \begin{center}
@@ -335,7 +355,7 @@
 
    \subsection{General Performance} \label{sec:experiments-general-performance}
 
-      In the first epoch, the accuracy is essentially randomly choosing between the three labels, but it incrementally climbs until on the 10th and final epoch, it reaches about 60%. A final accuracy of 60% does not seem very high, but given this a multi-class problem, this is still significantly higher than the expected value if the classifier randomly chose a label. 
+      In the first epoch, the accuracy is essentially randomly choosing between the three labels, but it incrementally climbs until on the 10th and final epoch, it reaches about 60\%. A final accuracy of 60\% does not seem very high, but given this a multi-class problem, this is still significantly higher than the expected value if the classifier randomly chose a label. 
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
 
 
