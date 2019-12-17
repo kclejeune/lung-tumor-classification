@@ -393,6 +393,12 @@
 
 \section{Conclusion} \label{sec:conclusion}
 
+	Generally, the classifier improves as we increase the number of sectors and increase the image resolution. As far as the number of sectors, this could be for a couple reasons. It may be because of the high amount of variability between sectors with lots of slices, since slices in different areas of a lung can be extremely different from each other. 
+
+A second reason is that since we are dividing a single classification problem into $n$ classification problems, each separate problem can converge to its own local minimum, which when combined, are more likely to be higher than the local minimum of a single classification. 
+
+Increasing the image resolution allows the classifier to better represent features that differentiate malignant and benign tumors. Since it has more details to work with, it makes sense that as the resolution increases, the accuracy of the model increases as well. 
+
    \subsection{Further Investigation} \label{sec:further}
 
       \subsubsection{Identifying Tumors} \label{sec:id-tumor}
