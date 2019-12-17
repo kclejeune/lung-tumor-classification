@@ -4,7 +4,9 @@
 
 To install the requirements run:
 
-    pip install --user -r requirements.txt
+```
+pip install --user -r requirements.txt
+```
 
 ## Fetching LIDC Data:
 All the LIDC data can be found [here](https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI)
@@ -27,5 +29,8 @@ python lidc_parser.py
 
 Once the data is processed, to train classifier, run:
 
-    python transfer.py
+```
+python transfer.py
+```
+
 The settings in this file under "constant values" can be modified to train the model to specific parameters
