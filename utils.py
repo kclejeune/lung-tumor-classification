@@ -26,7 +26,7 @@ def get_lidc_dataframes(data_path: str, num_sectors: int):
             os.path.join(study, "annotations.txt"), sep=": ", header=None, dtype=str
         )
         df_temp.columns = ["File", "Label"]
-        df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
+        df_temp["File"] = df_temp["File"].apply(lambda e: "{}/{}.png".format(study, e))
         frames.append(df_temp)
 
     return [balance_frame(frame) for frame in slice_sector(frames, num_sectors)]
