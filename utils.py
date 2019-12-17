@@ -29,7 +29,16 @@ def get_lidc_dataframes(data_path: str, num_sectors: int):
         df_temp["File"] = df_temp["File"].apply(lambda e: f"{study}/{e}.png")
         frames.append(df_temp)
 
-    return slice_sector(frames, num_sectors)
+    return [balance_frame(frame) for frame in slice_sector(frames, num_sectors)]
+
+
+def balance_frame(frame):
+    tumor_sample_df = frame.loc[frame["Label"] != "0"]
+    no_nodule_df = frame.loc[frame["Label"] == "0"]
+
+    no_nodule_sample = no_nodule_df.sample(n=len(tumor_sample_df) // 2)
+
+    return pd.concat([tumor_sample_df, no_nodule_sample])
 
 
 def slice_sector(frames, num_sectors: int):

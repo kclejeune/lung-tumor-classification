@@ -15,7 +15,7 @@ base_model = ResNet50(
     weights="imagenet", include_top=False, input_shape=(HEIGHT, WIDTH, 3)
 )
 
-TRAIN_DIR = os.path.join(get_keybase_team("cwru_dl"), "output")
+TRAIN_DIR = "/home/drb133/lidc"
 BATCH_SIZE = 8
 
 lidc_df = get_lidc_dataframes(TRAIN_DIR, 13)
@@ -38,13 +38,15 @@ train_datagen = ImageDataGenerator(
 train_gen = []
 
 for df in lidc_df:
-    train_gen.append(train_datagen.flow_from_dataframe(
-    df,
-    x_col="File",
-    y_col="Label",
-    target_size=(HEIGHT, WIDTH),
-    batch_size=BATCH_SIZE,
-))
+    train_gen.append(
+        train_datagen.flow_from_dataframe(
+            df,
+            x_col="File",
+            y_col="Label",
+            target_size=(HEIGHT, WIDTH),
+            batch_size=BATCH_SIZE,
+        )
+    )
 
 
 def build_finetune_model(base_model, dropout, fc_layers, num_classes):
@@ -89,14 +91,16 @@ callbacks_list = [checkpoint]
 history = []
 
 for train_df in train_gen:
-    history.append(finetune_model.fit_generator(
-        train_df,
-        epochs=NUM_EPOCHS,
-        workers=8,
-        steps_per_epoch=num_train_images // BATCH_SIZE,
-        shuffle=True,
-        callbacks=callbacks_list,
-    ))
+    history.append(
+        finetune_model.fit_generator(
+            train_df,
+            epochs=NUM_EPOCHS,
+            workers=8,
+            steps_per_epoch=num_train_images // BATCH_SIZE,
+            shuffle=True,
+            callbacks=callbacks_list,
+        )
+    )
 
 
 # Plot the training and validation loss + accuracy
