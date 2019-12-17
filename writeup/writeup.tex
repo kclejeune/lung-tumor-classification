@@ -235,7 +235,7 @@
 
 ​	\subsection{Classifying Tumors} \label{sec:classify-tumor}
 
-​		Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models 
+​		Once we can identify a tumor in a lung, the problem becomes whether that tumor can be harmful. \ref{sec:related-deep-residual-networks} uses ResNet in a slightly different way than our implementation. Rather than scanning a full lung, they use an image of the tumor itself instead, and with this image, they create three images from this original image, each representing the different axes of the image (coronal, sagittal, and axial). Each of these is then input into a corresponding ResNet, setting up three different models. In order to both identify and diagnose a tumor, we could use a similar method to that used in \ref{sec:related-deep-residual-networks}. First, in order to identify the tumor, we could run along the coronal plane of a scan. Then, when we have identified the slices of the lung that have a tumor (if it exists), we can use all three planes (coronal, sagital, and axial) in order to diagnose the tumor. This would allow us a full dimension worth of data more than we are currently using, so it likely would help with accuracy. 
 
 \section{Conclusion} \label{sec:conclusion}
 
