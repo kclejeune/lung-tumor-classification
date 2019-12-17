@@ -171,6 +171,24 @@
       allowed them to create a highly accurate model for classfying CT scans.
 
    \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
+      This paper \cite{nodulex} introduces another systematics approach for lung cancer malignancy classification called
+      NoduleX. This specific approach is based on a CNN architecture, and it takes into input a 3-D image volume and processed
+      through a successive 2-D multi-channel convolution and max pooling layers to produce spacial 1-D "feature vector",
+      and then processed into a final classification layer in which a softmax function predicts its output. In addition
+      to a CNN architecture, the authors used a radiological quantitative image features (QIF) model to integrate
+      the CNN features with radiological features. The predictive model then extracted from the CNN feature vectors concatentated
+      with the features from QIF are then used as inputs to a trained random forest classifier.
+
+      The dataset they trained on was the LIDC-IDRI. They processed on 1065 nodules with different malignancy scores ranging
+      from 1-5, where 1 means highly unlikely to be malignant and 5 meaning highly malignant. They then denoted the datasets as
+      S1, S2, S3, S4, and S5, respectively. They then tested on two designs: S1 vs S45 and S12 vs S45 with 80\% of the data
+      for training and the other 20\% for testing.
+
+      While this method is using a combined ML and DL algorithms, it performed significantly well. For the design of S1 vs S45,
+      they achieving a result of 96.2\% accuracy, 96.2\% sensitivity, 96.2\% specificity, and AUC of 0.989 for a CNN of 21 x 21 x 5 with the QIF
+      features. For the design of S12 vs S45, the same model has found a result of 93.2\% accuracy, 87.9\% sensitivity, 98.5\% specificity, and AUC of 0.985.
+      This shows that although there are hand constructed features that combines the feature vectors of the CNN and that of QIF,
+      the classification was still highly accurate in its predictions of malignant nodules.
 
 
 \section{Datasets} \label{sec:data}
