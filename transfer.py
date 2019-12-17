@@ -6,7 +6,7 @@ from keras.layers import Activation, Dense, Dropout, Flatten
 from keras.models import Model, Sequential
 from keras.optimizers import SGD, Adam
 from keras.preprocessing.image import ImageDataGenerator
-from utils import get_keybase_team, get_lidc_dataframe
+from utils import get_keybase_team, get_lidc_dataframes
 
 # establish base model
 HEIGHT, WIDTH = 512, 512
@@ -18,7 +18,7 @@ base_model = ResNet50(
 TRAIN_DIR = os.path.join(get_keybase_team("cwru_dl"), "output")
 BATCH_SIZE = 8
 
-lidc_df = get_lidc_dataframe(TRAIN_DIR)
+lidc_df = get_lidc_dataframes(TRAIN_DIR, 13)
 
 train_datagen = ImageDataGenerator(
     preprocessing_function=preprocess_input,
@@ -27,13 +27,24 @@ train_datagen = ImageDataGenerator(
     vertical_flip=True,
 )
 
-train_generator = train_datagen.flow_from_dataframe(
-    lidc_df,
+# train_generator = train_datagen.flow_from_dataframe(
+#     lidc_df,
+#     x_col="File",
+#     y_col="Label",
+#     target_size=(HEIGHT, WIDTH),
+#     batch_size=BATCH_SIZE,
+# )
+
+train_gen = []
+
+for df in lidc_df:
+    train_gen.append(train_datagen.flow_from_dataframe(
+    df,
     x_col="File",
     y_col="Label",
     target_size=(HEIGHT, WIDTH),
     batch_size=BATCH_SIZE,
-)
+))
 
 
 def build_finetune_model(base_model, dropout, fc_layers, num_classes):
@@ -75,35 +86,39 @@ filepath = os.path.join("checkpoints", "ResNet50", "_model_weights.h5")
 checkpoint = ModelCheckpoint(filepath, monitor=["acc"], verbose=1, mode="max")
 callbacks_list = [checkpoint]
 
-history = finetune_model.fit_generator(
-    train_generator,
-    epochs=NUM_EPOCHS,
-    workers=8,
-    steps_per_epoch=num_train_images // BATCH_SIZE,
-    shuffle=True,
-    callbacks=callbacks_list,
-)
+history = []
+
+for train_df in train_gen:
+    history.append(finetune_model.fit_generator(
+        train_df,
+        epochs=NUM_EPOCHS,
+        workers=8,
+        steps_per_epoch=num_train_images // BATCH_SIZE,
+        shuffle=True,
+        callbacks=callbacks_list,
+    ))
 
 
 # Plot the training and validation loss + accuracy
 def plot_training(history):
-    acc = history.history["acc"]
-    val_acc = history.history["val_acc"]
-    loss = history.history["loss"]
-    val_loss = history.history["val_loss"]
-    epochs = range(len(acc))
+    for hist in history:
+        acc = hist.history["acc"]
+        val_acc = hist.history["val_acc"]
+        loss = hist.history["loss"]
+        val_loss = hist.history["val_loss"]
+        epochs = range(len(acc))
 
-    plt.plot(epochs, acc, "r.")
-    plt.plot(epochs, val_acc, "r")
-    plt.title("Training and validation accuracy")
+        plt.plot(epochs, acc, "r.")
+        plt.plot(epochs, val_acc, "r")
+        plt.title("Training and validation accuracy")
+        plt.show()
+
+        plt.savefig("acc_vs_epochs.png")
 
     # plt.figure()
     # plt.plot(epochs, loss, 'r.')
     # plt.plot(epochs, val_loss, 'r-')
     # plt.title('Training and validation loss')
-    plt.show()
-
-    plt.savefig("acc_vs_epochs.png")
 
 
 plot_training(history)
