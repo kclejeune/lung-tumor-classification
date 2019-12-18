@@ -246,17 +246,17 @@
         \begin{figure}[h]
             \centering
             \includegraphics[width=0.4\textwidth]{./images/residual.png}
-            \caption{Residual Node}
+            \caption{Residual Node \cite{fung_2017}}
             \label{fig:struct-cnn-residual}
         \end{figure}
 
-        For our project, we are using the ResNet-50, \ref{fig:struct-cnn-resnet},pre-trained model for Keras. The architecture of the model can be seen in the image below.
+        For our project, we are using the ResNet-50 pre-trained model for Keras. The architecture of the model can be seen in figure \ref{fig:struct-cnn-resnet}.
 
         \begin{figure*}
             \begin{center}
                 \includegraphics[width=\textwidth]{./images/Resnet-50.png}
             \end{center}
-            \caption{Architecture of ResNet-5}
+            \caption{Architecture of ResNet-5 \cite{dwivedi_2019}}
             \label{fig:struct-cnn-resnet}
         \end{figure*}
 
@@ -286,7 +286,7 @@
    distribution was well distributed among the three classes (non-nodule, benign, and malignant).
 
    \subsection{General Performance} \label{sec:experiments-general-performance}
-      To evaluate the general performance of the model above, \ref{sec:struct},the following parameters are used as a baseline.
+      To evaluate the general performance of the model described in section \ref{sec:struct}, the following parameters are used as a baseline.
 
       \begin{center}
          Number of Sectors: $5$ \\
@@ -301,7 +301,7 @@
          \label{fig:experiments-general-acc-loss}
       \end{figure}
 
-      The above figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
+      Figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
 
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
@@ -320,7 +320,7 @@
             \label{fig:experiments-1-sector-acc-loss}
          \end{figure}
 
-         The above figure \ref{fig:experiments-1-sector-acc-loss} shows the accuracy and loss of the 1 sector model over 10 epochs.
+         Figure \ref{fig:experiments-1-sector-acc-loss} shows the accuracy and loss of the 1 sector model over 10 epochs.
 
          This model was run on $10,050$ scans.
 
@@ -339,7 +339,7 @@
             \label{fig:experiments-13-sector-acc-loss}
          \end{figure}
 
-         The above figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+         Figure \ref{fig:experiments-13-sector-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
 
          The baseline model for each sector was run on $774$ scans. The whole baseline model was trained on $10,062$ scans.
    \subsection{Varying Image Resolution} \label{sec:experiements-res}
@@ -357,7 +357,7 @@
          \label{fig:experiments-64-px-acc-loss}
       \end{figure}
 
-      The above figure \ref{fig:experiments-64-px-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
+      Figure \ref{fig:experiments-64-px-acc-loss} shows the accuracy and loss of the 5 sector model over 10 epochs for the first sector.
 
       The model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
 \section{Results} \label{sec:results}
