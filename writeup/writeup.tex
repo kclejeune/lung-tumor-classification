@@ -132,9 +132,9 @@
       Amongst the algorithms found in the feature-based framework in the ML category, the most popular
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
-      and AUC of 0.905-0.998.
-    
-      Amongst the algorithms that were used in the DL category, the CNN was the most
+      an AUC of 0.905-0.998.
+
+      Among the algorithms that were used in the DL category, the CNN was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
 
@@ -145,7 +145,7 @@
       consensus on which clinical settings in which ML algorithms would be more appropriately used.
 
    \subsection{ResNet: Deep Residual Networks} \label{sec:related-deep-residual-networks}
-      In the paper \cite{deep_residual_network}, the authors described both the advantages and disadvantages of using
+      In the paper Pulmonary Nodule Classification with Deep Residual Networks \cite{deep_residual_network}, the authors described both the advantages and disadvantages of using
       CNNs to classify malignant lung nodules, and how using a deep residual network addresses its disadvantages.
       While a CNNs help remove the need for any hand-crafted feature engineering from images by learning discriminative
       features from the data directly, they work the best handling classification classes that are more visually distinct
@@ -178,7 +178,7 @@
       allowed them to create a highly accurate model for classifying CT scans.
 
    \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
-      This paper \cite{nodulex} introduces another systematics approach for lung cancer malignancy classification called
+      This paper Highly Accurate Model for Prediction of Lung Nodule Malignancy with CT Scans \cite{nodulex}, introduces another systematics approach for lung cancer malignancy classification called
       NoduleX. This specific approach is based on a CNN architecture, and it takes into input a 3-D image volume and processed
       through a successive 2-D multi-channel convolution and max pooling layers to produce spacial 1-D "feature vector",
       and then processed into a final classification layer in which a softmax function predicts its output. In addition
@@ -200,8 +200,8 @@
 
 \section{Datasets} \label{sec:data}
    For standard transfer learning, both source and target data is needed. In this case
-   the project utilizes ResNet 50's weights of the source images. The data that the weights
-   were trained on comprises source domain, $D_s$.
+   the project utilizes ResNet50's weights of the source images. The data that the weights
+   were trained on comprises the source domain, $D_s$.
 
    LIDC-IDRI, \ref{sec:data-lidc}, is used to train the output segment of the
    the network. This is our target domain, $D_t$.
@@ -210,45 +210,38 @@
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
       is a very popular cancer classification dataset that focuses on tumors located
       in the lungs. The lung scans are CT images of the upper torso. The entire dataset
-      consists of 1018 cases that each contain thoracic radiologists annotations of tumor segments
+      consists of 1018 cases that each contain thoracic radiologist's annotations of tumor segments
       These tumors annotations each contain 9 different descriptors such as malignancy,
       calcification, and lobulation. The descriptor this paper is interested in is the
       malignancy of each nodule.
 
-      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' of malignancy and
-      5 being 'Highly Suspicious' of malignancy. Using these ratings each slice in a chest CT
+      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' to be malignant and
+      5 being 'Highly Suspicious' of malignancy. Using these ratings, each slice in a chest CT
       was rated as either malignant, benign, or non-nodule. A slice was considered non-nodule
       if there was no nodule annotations found within the slice. To split nodules into malignant
-      and benign labels, the annotations performed on a specific node were averaged and for malignancy
+      and benign labels, the annotations performed on a specific node were averaged. For malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
-      considered benign, based upon the 4 radiologists predictions.
+      considered benign, based upon the 4 radiologist's predictions.
 
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
-         to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
+         to read the XML files which contained the annotation information for each nodule. \cite{Hancock2018}
 
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
-         and communicating image data. The structures of these files are extremely robust and offer many access in
-         the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
+         and communicating image data. The structures of these files are extremely robust and contain useful information
+         in the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
 
-         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
-         ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
+         The vertical slice size must also be taken into account because CT scans can be ordered in a range of
+         resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
 
 \section{Project Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures.
-        Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so
-        the performance can degrade in earlier layers. This can result in worse performance for deeper models than
-        shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt
-        to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become
-        infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both
-        passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the
-        activation function and avoid the vanishing gradient problem.
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, back-propagating the gradient to earlier layers makes the gradient becomes closer and closer to zero, due to stringing probability multiplication, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
         \begin{figure}[h]
             \centering
@@ -267,14 +260,7 @@
             \label{fig:struct-cnn-resnet}
         \end{figure*}
 
-         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first
-         stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists
-         of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional
-         blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional
-         layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU.
-         The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run
-         on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an
-         identity block is sufficient, otherwise the input must be re-shaped to match the output.
+         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
 
