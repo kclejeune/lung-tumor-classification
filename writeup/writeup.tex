@@ -53,8 +53,8 @@
 \begin{abstract}
    Lung tumor identification and classification is a challenging task which typically requires a trained medical
    professional to choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions
-   and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to
-   choose and classify DICOM slices. We propose an inductive transfer learning approach which applies hidden layer
+   and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network (CNN) to
+   choose and classify Digital Imaging and Communications in Medicine (DICOM) slices. We propose an inductive transfer learning approach which applies hidden layer
    image representations from a residual neural network to our lung nodule classifier to classify groups of slices and provide
    recommendations to a user as to what groups may contain possible benign or malignant nodules.
 \end{abstract}
@@ -62,7 +62,7 @@
 \section{Introduction} \label{sec:intro}
 
    Traditionally, Machine Learning problems rely on the assumption that the training data and future data domains
-   are in the same feature space and have the same distribution (Pan, Yang). However, a large number of real world
+   are in the same feature space and have the same distribution \cite{pan_yang_2010}. However, a large number of real world
    applications perform poorly when these assumptions are not met. A common instance of this is a classification task on
    a restricted domain of interest (e.g. classifying malignant brain tumors) with minimal or unlabeled training data,
    but we have sufficient training data in another domain of interest (e.g. classifying malignant lung carcinomas).
@@ -117,17 +117,17 @@
 
    \subsection{Machine Learning vs Deep Learning Algorithms} \label{sec:related-dl-vs-ml}
       In the paper by \cite{ml_vs_dl}, the authors sought out to systematically compare the results and algorithms of
-      several works of literature regarding the detection of lung modules in the LIDC-IDRI database.
+      several works of literature regarding the detection of lung modules in the LIDC-IDRI \ref{sec:data-lidc} database.
       Out of the initial 1972 publications found in their search, the authors assessed the eligibility of 180 papers
-      and found only 41 of which satisfied their for data requirements and were thus considered for their discussion.
+      and found only 41 of which satisfied for their data requirements and were thus considered for their discussion.
       The two primary groups of algorithms are machine learning (ML) and deep learning (DL).
 
-      Amongst the algorithms found in the feature-based framework in the machine learning (ML) category, the most popular
+      Amongst the algorithms found in the feature-based framework in the ML category, the most popular
       type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
       and AUC of 0.905-0.998.
     
-      Amongst the algorithms that were used in the deep learning category, the convolution neural network (CNN) was the most
+      Amongst the algorithms that were used in the DL category, the CNN was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
     
@@ -146,12 +146,12 @@
       most other image classification datasets (thousands vs millions). Therefore the researchers attempted to address
       the following questions in their work:
 
-      1. Does increasing the depth of neural networks help with the task of lung nodule classification?
-    
-      2. How can we leverage transfer learning to achieve higher accuracy?
-    
-      3. Can accuracy be improved by using a training curriculum?
-    
+      \begin{enumerate}
+	     \item Does increasing the depth of neural networks help with the task of lung nodule classification?
+	     \item How can we leverage transfer learning to achieve higher accuracy?
+	     \item Can accuracy be improved by using a training curriculum?
+      \end{enumerate}
+
       The proposed solution to this problem is through using a deep residual network (ResNet). To address the first question,
       the researchers designed a ResNet architecture that was much deeper than the lung nodule classification systems
       using CNNs in their cited sources. The increased depth came as a result of advancements such as batch normalization

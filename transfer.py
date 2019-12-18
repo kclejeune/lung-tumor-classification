@@ -11,7 +11,7 @@ from utils import get_lidc_dataframes
 TRAIN = True
 
 
-experiment_name = "5models_13slices_64px"
+experiment_name = "5models_13slices_128px"
 figs_dir = f"figs/{experiment_name}/"
 os.makedirs(figs_dir, exist_ok=True)
 
@@ -61,8 +61,8 @@ def plot_training(hist, i):
 ############### CONSTANT DECLARATIONS #########################
 # establish base model image dimensions
 HEIGHT, WIDTH = 128, 128
-TRAIN_DIR = os.path.realpath("/Users/kclejeune/Downloads/lidc")
-NUM_SLICES = 1
+TRAIN_DIR = os.path.realpath("D:/Downloads/lidc")
+NUM_SLICES = 5
 # 10 studies per batch
 BATCH_SIZE = NUM_SLICES * 10
 NUM_EPOCHS = 10
