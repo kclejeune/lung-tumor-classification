@@ -200,8 +200,8 @@
 
 \section{Datasets} \label{sec:data}
    For standard transfer learning, both source and target data is needed. In this case
-   the project utilizes ResNet 50's weights of the source images. The data that the weights
-   were trained on comprises source domain, $D_s$.
+   the project utilizes ResNet50's weights of the source images. The data that the weights
+   were trained on comprises the source domain, $D_s$.
 
    LIDC-IDRI, \ref{sec:data-lidc}, is used to train the output segment of the
    the network. This is our target domain, $D_t$.
@@ -210,32 +210,32 @@
       The Lung Image Database Consortium image collection (LIDC-IDRI) dataset
       is a very popular cancer classification dataset that focuses on tumors located
       in the lungs. The lung scans are CT images of the upper torso. The entire dataset
-      consists of 1018 cases that each contain thoracic radiologists annotations of tumor segments
+      consists of 1018 cases that each contain thoracic radiologist's annotations of tumor segments
       These tumors annotations each contain 9 different descriptors such as malignancy,
       calcification, and lobulation. The descriptor this paper is interested in is the
       malignancy of each nodule.
 
-      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' of malignancy and
-      5 being 'Highly Suspicious' of malignancy. Using these ratings each slice in a chest CT
+      The malignancy is rated on a 1-5 scale. 1 being 'Highly Unlikely' to be malignant and
+      5 being 'Highly Suspicious' of malignancy. Using these ratings, each slice in a chest CT
       was rated as either malignant, benign, or non-nodule. A slice was considered non-nodule
       if there was no nodule annotations found within the slice. To split nodules into malignant
-      and benign labels, the annotations performed on a specific node were averaged and for malignancy
+      and benign labels, the annotations performed on a specific node were averaged. For malignancy
       values $\ge 3$, the node was considered malignant and for malignancy values $< 3$, the node was
-      considered benign, based upon the 4 radiologists predictions.
+      considered benign, based upon the 4 radiologist's predictions.
 
       \subsubsection{PyLIDC} \label{sec:data-lidc-pylidc}
          To assist in the extraction of data from the DICOM image files, a python library was utilized
-         to read to XML files which contained the annotation information for each nodule. \cite{Hancock2018}
+         to read the XML files which contained the annotation information for each nodule. \cite{Hancock2018}
 
       \subsubsection{Processing LIDC-IDRI Data} \label{sec:data-lidc-processing}
          DICOM files, (Digital Imaging and Communications in Medicine), are the standard method for transferring
-         and communicating image data. The structures of these files are extremely robust and offer many access in
-         the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
+         and communicating image data. The structures of these files are extremely robust and contain useful information
+         in the form of 'Tags'. In the case of LIDC-IDRI, the dataset is composed entirely of CT images which must be
          processed by first transforming the image data along the HU (Hounsfield scale) given the transformation
          coefficients in the DICOM.
 
-         The vertical slice size must also be taken into account because CT scans can be ordered in a variety of
-         ranging resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
+         The vertical slice size must also be taken into account because CT scans can be ordered in a range of
+         resolutions from $(<0.1\text{mm to } >3 \text{mm})$. A scale of 1 mm per slice was chosen and the
          pixel data was transformed.
 
 \section{Project Structure} \label{sec:struct}
