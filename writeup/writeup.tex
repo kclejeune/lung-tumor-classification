@@ -278,7 +278,7 @@
 \section{Experiments} \label{sec:experiments}
    Three primary ideas were tested in this project. One was to determine if this model generally performed well on the given data and if it performed well
    compared to the results from \ref{sec:related-dl-vs-ml}. The second goal was to analyze if shifting the
-   {\it sector\_num} as seen in \ref{sec:struct-sector}, increased or decreased the performance of our model. The third was to see if down-sampling the
+   {\it sector\_num} as seen in \ref{sec:struct-sector} increased or decreased the performance of our model. The third was to see if down-sampling the
    given CT scans to a lower resolution contributed to a significant drop in accuracy.
 
    Given the way our problem setup is designed, a significant amount of slices from the CT scans did not contain tumorous growths. This led to an extremely
@@ -301,7 +301,7 @@
          \label{fig:experiments-general-acc-loss}
       \end{figure}
 
-      The above figure \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
+      The figure below \ref{fig:experiments-general-acc-loss} shows the accuracy and loss of the general baseline model over 10 epochs for the first sector.
 
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
