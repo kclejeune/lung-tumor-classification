@@ -6,6 +6,7 @@ from os.path import dirname, abspath, join
 from keras.models import load_model
 import numpy as np
 
+
 def get_keybase_root(dir: str = ""):
     if platform.system().lower() == "windows":
         return os.path.realpath(":k")
@@ -20,6 +21,17 @@ def get_keybase_team(team_name: str):
 
 
 def get_lidc_dataframes(data_path: str, num_sectors: int):
+    """
+    Split an LIDC Study dataset into 'buckets' of axial slices according to lung position.
+
+    Parameters:
+    ----------
+        data_path: training data location
+        num_sectors: the number of buckets to produce
+    Returns:
+    -------
+        return a list of pandas dataframes containing the data from each respective 'bucket'
+    """
     sorted_studies = sorted(glob(os.path.join(data_path, "*")))
     frames = []
     for study in sorted_studies:
@@ -34,6 +46,18 @@ def get_lidc_dataframes(data_path: str, num_sectors: int):
 
 
 def balance_frame(frame):
+    """
+    Equalize class distributions in a dataframe to contain an approximately even
+    amount of
+
+    Paramaters:
+    ----------
+        frame: a pandas dataframe with unbalanced class distribution
+
+    Return:
+    ------
+        return a pandas dataframe with balanced class distribution
+    """
     tumor_sample_df = frame.loc[frame["Label"] != "0"]
     no_nodule_df = frame.loc[frame["Label"] == "0"]
 
@@ -76,7 +100,6 @@ def load_model_weights():
         model = load_model(weight)
         models.append(model)
     return models
-
 
 
 def test_example(models, examples_path):

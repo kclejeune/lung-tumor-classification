@@ -53,8 +53,8 @@
 \begin{abstract}
    Lung tumor identification and classification is a challenging task which typically requires a trained medical
    professional to choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions
-   and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network to
-   choose and classify DICOM slices. We propose an inductive transfer learning approach which applies hidden layer
+   and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network (CNN) to
+   choose and classify Digital Imaging and Communications in Medicine (DICOM) slices. We propose an inductive transfer learning approach which applies hidden layer
    image representations from a residual neural network to our lung nodule classifier to classify groups of slices and provide
    recommendations to a user as to what groups may contain possible benign or malignant nodules.
 \end{abstract}
@@ -62,7 +62,7 @@
 \section{Introduction} \label{sec:intro}
 
    Traditionally, Machine Learning problems rely on the assumption that the training data and future data domains
-   are in the same feature space and have the same distribution (Pan, Yang). However, a large number of real world
+   are in the same feature space and have the same distribution \cite{pan_yang_2010}. However, a large number of real world
    applications perform poorly when these assumptions are not met. A common instance of this is a classification task on
    a restricted domain of interest (e.g. classifying malignant brain tumors) with minimal or unlabeled training data,
    but we have sufficient training data in another domain of interest (e.g. classifying malignant lung carcinomas).
@@ -109,13 +109,13 @@
          and dimensionality reduction.
 
 \subsection{Classification Problem} \label{sec:intro-class}
-   Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes 
-   to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely 
-   valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as 
-   classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore 
-   help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings, 
-   however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn 
-   the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn the representation 
+   Lung cancer is one of the most lethal diseases worldwide. A patient’s probability of survival decreases the longer it takes
+   to identify a cancerous tumor. Thus, successful lung cancer screenings can be used to save countless lives, making them extremely
+   valuable. Manually inspecting cancer screenings can be very time and cost intensive, and is not necessarily error free, as
+   classifying tumors requires advanced radiological knowledge. Computer programs, and deep learning specifically, can therefore
+   help enhance the quality and decrease the costs associated with analyzing screenings. Given the scarcity of tumors in cancer screenings,
+   however, and their limited availability in general, it is difficult to train models. Therefore, we can use transfer learning to learn
+   the feature representation of images and transfer that knowledge to cancer screenings, so it does not have to learn the representation
    itself and can focus specifically on classifying benign or malignant tumors.
 
 %-------------------------------------------------------------------------
@@ -123,18 +123,18 @@
 \section{Related Works} \label{sec:related}
 
    \subsection{Machine Learning vs Deep Learning Algorithms} \label{sec:related-dl-vs-ml}
-      In the paper by \cite{ml_vs_dl}, the authors sought out to systematically compare the results and algorithms of
-      several works of literature regarding the detection of lung modules in the LIDC-IDRI database.
+      In the paper Automatic Pulmonary Nodule Detection \cite{ml_vs_dl}, the authors sought out to systematically compare the results and algorithms of
+      several works of literature regarding the detection of lung modules in the LIDC-IDRI \ref{sec:data-lidc} database.
       Out of the initial 1972 publications found in their search, the authors assessed the eligibility of 180 papers
-      and found only 41 of which satisfied their for data requirements and were thus considered for their discussion.
+      and found only 41 of which satisfied for their data requirements and were thus considered for their discussion.
       The two primary groups of algorithms are machine learning (ML) and deep learning (DL).
 
-      Amongst the algorithms found in the feature-based framework in the machine learning (ML) category, the most popular
-      type was the Support-vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
+      Among the algorithms found in the feature-based framework in the ML category, the most popular
+      type was the Support Vector Machines (SVM). The algorithms that implemented some forms of the SVM classifier
       reached accuracy range of 68.4\%-99.0\%, sensitivity range of 55.0\%-98.6\%, specificity range of 87.5\%-98.2\%, and
-      and AUC of 0.905-0.998.
+      an AUC of 0.905-0.998.
 
-      Amongst the algorithms that were used in the deep learning category, the convolution neural network (CNN) was the most
+      Among the algorithms that were used in the DL category, the CNN was the most
       frequently used type. The algorithms that implemented a CNN architecture had an accuracy range of 82.2\%-97.6\%,
       sensitivity range of 83.1\%-96.6\%, specificity range of 71.4\%-98.2\%, and an AUC range of 0.877-0.984.
 
@@ -145,7 +145,7 @@
       consensus on which clinical settings in which ML algorithms would be more appropriately used.
 
    \subsection{ResNet: Deep Residual Networks} \label{sec:related-deep-residual-networks}
-      In the paper \cite{deep_residual_network}, the authors described both the advantages and disadvantages of using
+      In the paper Pulmonary Nodule Classification with Deep Residual Networks \cite{deep_residual_network}, the authors described both the advantages and disadvantages of using
       CNNs to classify malignant lung nodules, and how using a deep residual network addresses its disadvantages.
       While a CNNs help remove the need for any hand-crafted feature engineering from images by learning discriminative
       features from the data directly, they work the best handling classification classes that are more visually distinct
@@ -153,11 +153,11 @@
       most other image classification datasets (thousands vs millions). Therefore the researchers attempted to address
       the following questions in their work:
 
-      1. Does increasing the depth of neural networks help with the task of lung nodule classification?
-
-      2. How can we leverage transfer learning to achieve higher accuracy?
-
-      3. Can accuracy be improved by using a training curriculum?
+      \begin{enumerate}
+	     \item Does increasing the depth of neural networks help with the task of lung nodule classification?
+	     \item How can we leverage transfer learning to achieve higher accuracy?
+	     \item Can accuracy be improved by using a training curriculum?
+      \end{enumerate}
 
       The proposed solution to this problem is through using a deep residual network (ResNet). To address the first question,
       the researchers designed a ResNet architecture that was much deeper than the lung nodule classification systems
@@ -178,7 +178,7 @@
       allowed them to create a highly accurate model for classifying CT scans.
 
    \subsection{Nodule Malignancy Classification} \label{sec:related-nodulex}
-      This paper \cite{nodulex} introduces another systematics approach for lung cancer malignancy classification called
+      This paper Highly Accurate Model for Prediction of Lung Nodule Malignancy with CT Scans \cite{nodulex}, introduces another systematics approach for lung cancer malignancy classification called
       NoduleX. This specific approach is based on a CNN architecture, and it takes into input a 3-D image volume and processed
       through a successive 2-D multi-channel convolution and max pooling layers to produce spacial 1-D "feature vector",
       and then processed into a final classification layer in which a softmax function predicts its output. In addition
@@ -241,14 +241,7 @@
 \section{Project Structure} \label{sec:struct}
 
    \subsection{Residual Neural Network} \label{sec:struct-cnn}
-        The vanishing gradient has long been a problem when constructing neural networks with large architectures.
-        Essentially, the back-propagating the gradient to earlier layers makes the gradient tend towards zero, so
-        the performance can degrade in earlier layers. This can result in worse performance for deeper models than
-        shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt
-        to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become
-        infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both
-        passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the
-        activation function and avoid the vanishing gradient problem.
+        The vanishing gradient has long been a problem when constructing neural networks with large architectures. Essentially, back-propagating the gradient to earlier layers makes the gradient becomes closer and closer to zero, due to stringing probability multiplication, so the performance can degrade in earlier layers. This can result in worse performance for deeper models than shallower ones, since earlier layers will perform worse for the deeper model. Residual neural networks attempt to solve this problem, by using "shortcuts" that jump layers in order to make sure the gradient does not become infinitesimally smaller. Figure \ref{fig:struct-cnn-residual} illustrates this concept. The input, $X$, is both passed to the next layer and skips ahead to the layer after, in order to add the effects of the input and the activation function and avoid the vanishing gradient problem.
 
         \begin{figure}[h]
             \centering
@@ -267,18 +260,11 @@
             \label{fig:struct-cnn-resnet}
         \end{figure*}
 
-         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first
-         stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists
-         of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional
-         blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional
-         layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU.
-         The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run
-         on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an
-         identity block is sufficient, otherwise the input must be re-shaped to match the output.
+         As a whole, the model has 5 stages, followed by a pooling and flattening step to output the data. The first stage puts the data through a convolutional layer that then runs ReLU and max pooling, and then the model consists of four stages convolutional blocks and identity blocks, with varying number of identity blocks. The convolutional blocks runs the input through two iterations of convolutional layers, followed by ReLU, and a final convolutional layer, and adding to this the input run through a convolutional layer, before running a final iteration of ReLU. The identity block does the same, but simply adds back the input in the end rather than a convolutional layer run on the input. The difference in the two is the shape of the input and output: if their dimensions line up, then an identity block is sufficient, otherwise the input must be re-shaped to match the output.
 
    \subsection{Model Sectors} \label{sec:struct-sector}
 
-        A unique approach of our solution is to bin together specific locations of lung CT scans into a bucket. In other words, there exists
+        A unique approach of our solution is to bin together specific locations of lung CT scans. In other words, there exists
         a hyper-parameter called {\it sector\_num}$=x$ that will train $x$ independent ResNet models, \ref{sec:struct-cnn} on separate
         physical portions of the CT scans. For example, every studies full chest CT scan was scaled to be just 65 slices. If the {\it sector\_number} $=13$,
         there will be 13 bins starting with bin 1 at the top of the chest and bin 13 at the bottom. Here, each bin will be comprised
@@ -319,7 +305,7 @@
 
       The baseline model for each sector was run on $2010$ scans. The whole baseline model was trained on $10,050$ scans.
    \subsection{Varying Sector Number} \label{sec:experiments-sector}
-      \subsubsection{1 Sector Model} \label{sec:experiments-sector-13}
+      \subsubsection{1 Sector Model} \label{sec:experiments-sector-1}
          In this model, there are 1 sectors used to divide the chest CT. This is a decrease of 4 sectors from \ref{sec:experiments-general-performance}.
          \begin{center}
             Number of Sectors: $1$ \\
@@ -393,11 +379,11 @@
 
 \section{Conclusion} \label{sec:conclusion}
 
-   Generally, the classifier improves as we increase the number of sectors and increase the image resolution. As far as the number of sectors, this could be for a couple reasons. It may be because of the high amount of variability between sectors with lots of slices, since slices in different areas of a lung can be extremely different from each other. 
+   Generally, the classifier improves as we increase the number of sectors and increase the image resolution. As far as the number of sectors, this could be for a couple reasons. It may be because of the high amount of variability between sectors with lots of slices, since slices in different areas of a lung can be extremely different from each other.
 
-   A second reason is that since we are dividing a single classification problem into $n$ classification problems, each separate problem can converge to its own local minimum, which when combined, are more likely to be higher than the local minimum of a single classification. 
+   A second reason is that since we are dividing a single classification problem into $n$ classification problems, each separate problem can converge to its own local minimum, which when combined, are more likely to be higher than the local minimum of a single classification.
 
-   Increasing the image resolution allows the classifier to better represent features that differentiate malignant and benign tumors. Since it has more details to work with, it makes sense that as the resolution increases, the accuracy of the model increases as well. 
+   Increasing the image resolution allows the classifier to better represent features that differentiate malignant and benign tumors. Since it has more details to work with, it makes sense that as the resolution increases, the accuracy of the model increases as well.
 
    \subsection{Further Investigation} \label{sec:further}
 
