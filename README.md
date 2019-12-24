@@ -1,5 +1,9 @@
 # EECS 600: Final Project
 
+## Abstract
+
+Lung tumor identification and classification is a chal- lenging task which typically requires a trained medical professional to choose the best slices of a scan and accurately classify the chosen slices. With medical data privacy restrictions and regulations, it is difficult to collect sufficient data to construct a typical Convolutional Neural Network (CNN) to choose and classify Digital Imaging and Com- munications in Medicine (DICOM) slices. We propose an inductive transfer learning approach which applies hidden layer image representations from a residual neural network to our lung nodule classifier to classify groups of slices and provide recommendations to a user as to what groups may contain possible benign or malignant nodules.
+
 ## Install Requirements:
 
 To install the requirements run:
